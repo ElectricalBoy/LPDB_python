@@ -1,6 +1,110 @@
-from typing import Any, NotRequired, Required, TypedDict
+from abc import abstractmethod, ABC
+from http import HTTPStatus
+from types import TracebackType
+from typing import Any, Final, NotRequired, Optional, Required, Type, TypedDict
+
+import aiohttp
+import requests
+
 
 class LpdbResponse(TypedDict):
     result: Required[list[dict[str, Any]]]
     error: NotRequired[list[str]]
     warning: NotRequired[list[str]]
+
+
+class AbstractLpdbSession(ABC):
+    BASE_URL: Final[str] = "https://api.liquipedia.net/api/v3/"
+
+    __api_key: str
+
+    def __init__(self, api_key: str):
+        self.__api_key = api_key
+
+    def _get_header(self) -> dict[str, str]:
+        return {"authorization": f"Apikey {self.__api_key}"}
+
+    @staticmethod
+    def get_wikis() -> set[str]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_response(
+        self, lpdb_datatype, lpdb_params
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        pass
+
+
+class LpdbSession(AbstractLpdbSession):
+
+    @staticmethod
+    def get_wikis() -> set[str]:
+        response = requests.get(
+            "https://liquipedia.net/api.php",
+            params={"action": "listwikis"},
+            headers={"accept-encoding": "gzip"},
+        )
+        wikis = response.json()
+        return set(wikis['allwikis'].keys())
+
+    def get_response(
+        self, lpdb_datatype, lpdb_params
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        lpdb_response = requests.get(
+            AbstractLpdbSession.BASE_URL + lpdb_datatype,
+            headers=self._get_header(),
+            params=lpdb_params,
+        )
+        lpdb_status = HTTPStatus(lpdb_response.status_code)
+        return (lpdb_status, lpdb_response.json())
+
+
+class AsyncLpdbSession(AbstractLpdbSession):
+    __session: aiohttp.ClientSession
+
+    def __init__(self, api_key):
+        super().__init__(api_key)
+        self.__session = aiohttp.ClientSession("https://api.liquipedia.net/api/v3/")
+
+    def __enter__(self) -> None:
+        raise TypeError("Use async with instead")
+
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
+        pass
+
+    async def __aenter__(self) -> "AsyncLpdbSession":
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
+        await self.__session.close()
+
+    @staticmethod
+    async def get_wikis() -> set[str]:
+        async with aiohttp.ClientSession("https://liquipedia.net/") as session:
+            async with session.get(
+                "api.php",
+                params={"action": "listwikis"},
+                headers={"accept-encoding": "gzip"},
+            ) as response:
+                wikis = await response.json()
+                return set(wikis['allwikis'].keys())
+
+    async def get_response(
+        self, lpdb_datatype, lpdb_params
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        async with self.__session.get(
+            lpdb_datatype, headers=self._get_header(), params=lpdb_params
+        ) as response:
+            lpdb_status = HTTPStatus(response.status)
+            lpdb_response = await response.json()
+            return (lpdb_status, lpdb_response)
