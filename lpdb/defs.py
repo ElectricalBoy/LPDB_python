@@ -154,6 +154,40 @@ class Company(LpdbBaseData):
         return self._raw['links']
 
 
+class Datapoint(LpdbBaseData):
+
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def type(self) -> str:
+        return self._raw["type"]
+
+    @property
+    def name(self) -> str:
+        return self._raw["name"]
+
+    @property
+    def information(self) -> str:
+        return self._raw["information"]
+
+    @property
+    def imageurl(self) -> str:
+        return self._raw["imageurl"]
+
+    @property
+    def imagedark(self) -> str:
+        return self._raw["imagedark"]
+
+    @property
+    def imagedarkurl(self) -> str:
+        return self._raw["imagedarkurl"]
+
+    @property
+    def date(self) -> Optional[datetime]:
+        return LpdbBaseData._parseIsoDateTime(self._raw["date"])
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
