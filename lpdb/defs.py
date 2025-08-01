@@ -154,7 +154,7 @@ class Company(LpdbBaseData):
 
     @property
     def links(self) -> dict[str, Any]:
-        return self._raw['links']
+        return self._raw["links"]
 
 
 class Datapoint(LpdbBaseData):
