@@ -1,6 +1,7 @@
 from datetime import date, datetime, UTC
 from typing import Any, Optional
 
+
 class LpdbBaseData:
     """
     Base class of all LPDB response data
@@ -16,44 +17,45 @@ class LpdbBaseData:
 
     @property
     def pageid(self) -> int:
-        return self._raw['pageid']
+        return self._raw["pageid"]
 
     @property
     def pagename(self) -> str:
-        return self._raw['pagename']
+        return self._raw["pagename"]
 
     @property
     def namespace(self) -> int:
-        return self._raw['namespace']
+        return self._raw["namespace"]
 
     @property
     def objectname(self) -> str:
-        return self._raw['objectname']
+        return self._raw["objectname"]
 
     @property
     def extradata(self) -> Optional[dict[str, Any]]:
-        return self._raw['extradata']
+        return self._raw["extradata"]
 
     @property
     def wiki(self) -> str:
-        return self._raw['wiki']
+        return self._raw["wiki"]
 
     def __repr__(self):
         return repr(self._raw)
-    
+
     @staticmethod
     def _parseIsoDate(date_str: str) -> Optional[date]:
         try:
             return date.fromisoformat(date_str)
         except ValueError:
             return None
-    
+
     @staticmethod
     def _parseIsoDateTime(datetime_str: str) -> Optional[datetime]:
         try:
             return datetime.fromisoformat(datetime_str).replace(tzinfo=UTC)
         except ValueError:
             return None
+
 
 class Broadcasters(LpdbBaseData):
 
@@ -62,39 +64,40 @@ class Broadcasters(LpdbBaseData):
 
     @property
     def id(self) -> str:
-        return self._raw['id']
+        return self._raw["id"]
 
     @property
     def name(self) -> str:
-        return self._raw['name']
+        return self._raw["name"]
 
     @property
     def page(self) -> str:
-        return self._raw['page']
+        return self._raw["page"]
 
     @property
     def position(self) -> str:
-        return self._raw['position']
+        return self._raw["position"]
 
     @property
     def language(self) -> str:
-        return self._raw['language']
+        return self._raw["language"]
 
     @property
     def flag(self) -> str:
-        return self._raw['flag']
+        return self._raw["flag"]
 
     @property
     def weight(self) -> float:
-        return self._raw['weight']
+        return self._raw["weight"]
 
     @property
     def date(self) -> Optional[date]:
-        return LpdbBaseData._parseIsoDate(self._raw['date'])
+        return LpdbBaseData._parseIsoDate(self._raw["date"])
 
     @property
     def parent(self) -> str:
-        return self._raw['parent']
+        return self._raw["parent"]
+
 
 class Company(LpdbBaseData):
 
@@ -103,52 +106,52 @@ class Company(LpdbBaseData):
 
     @property
     def name(self) -> str:
-        return self._raw['name']
+        return self._raw["name"]
 
     @property
     def image(self) -> str:
-        return self._raw['image']
+        return self._raw["image"]
 
     @property
     def imageurl(self) -> str:
-        return self._raw['imageurl']
-    
+        return self._raw["imageurl"]
+
     @property
     def imagedark(self) -> str:
-        return self._raw['imagedark']
+        return self._raw["imagedark"]
 
     @property
     def imagedarkurl(self) -> str:
-        return self._raw['imagedarkurl']
+        return self._raw["imagedarkurl"]
 
     @property
     def locations(self) -> list:
-        return self._raw['locations']
+        return self._raw["locations"]
 
     @property
     def parentcompany(self) -> str:
-        return self._raw['parentcompany']
-    
+        return self._raw["parentcompany"]
+
     @property
     def sistercompany(self) -> str:
-        return self._raw['sistercompany']
-    
+        return self._raw["sistercompany"]
+
     @property
     def industry(self) -> str:
-        return self._raw['industry']
+        return self._raw["industry"]
 
     @property
     def foundeddate(self) -> Optional[datetime]:
-        return LpdbBaseData._parseIsoDateTime(self._raw['foundeddate'])
-    
+        return LpdbBaseData._parseIsoDateTime(self._raw["foundeddate"])
+
     @property
     def defunctdate(self) -> Optional[datetime]:
-        return LpdbBaseData._parseIsoDateTime(self._raw['defunctdate'])
-    
+        return LpdbBaseData._parseIsoDateTime(self._raw["defunctdate"])
+
     @property
     def defunctfate(self) -> str:
-        return self._raw['defunctfate']
-    
+        return self._raw["defunctfate"]
+
     @property
     def links(self) -> dict[str, Any]:
         return self._raw['links']

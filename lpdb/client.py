@@ -45,7 +45,7 @@ class LpdbSession(AbstractLpdbSession):
             headers={"accept-encoding": "gzip"},
         )
         wikis = response.json()
-        return set(wikis['allwikis'].keys())
+        return set(wikis["allwikis"].keys())
 
     def get_response(
         self, lpdb_datatype, lpdb_params
@@ -97,7 +97,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 headers={"accept-encoding": "gzip"},
             ) as response:
                 wikis = await response.json()
-                return set(wikis['allwikis'].keys())
+                return set(wikis["allwikis"].keys())
 
     async def get_response(
         self, lpdb_datatype, lpdb_params
