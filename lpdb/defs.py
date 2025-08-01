@@ -191,6 +191,44 @@ class Datapoint(LpdbBaseData):
         return LpdbBaseData._parseIsoDateTime(self._raw["date"])
 
 
+class ExternalMediaLink(LpdbBaseData):
+
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def title(self) -> str:
+        return self._raw["title"]
+
+    @property
+    def translatedtitle(self) -> str:
+        return self._raw["translatedtitle"]
+
+    @property
+    def link(self) -> str:
+        return self._raw["link"]
+
+    @property
+    def date(self) -> Optional[date]:
+        return LpdbBaseData._parseIsoDate(self._raw["date"])
+
+    @property
+    def authors(self) -> dict[str, str]:
+        return self._raw["authors"]
+
+    @property
+    def language(self) -> str:
+        return self._raw["language"]
+
+    @property
+    def publisher(self) -> str:
+        return self._raw["publisher"]
+
+    @property
+    def type(self) -> str:
+        return self._raw["type"]
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
