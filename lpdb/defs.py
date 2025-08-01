@@ -28,7 +28,7 @@ class LpdbBaseData:
 
     @property
     def objectname(self) -> str:
-        return self._raw['pageid']
+        return self._raw['objectname']
 
     @property
     def extradata(self) -> Optional[dict[str, Any]]:
