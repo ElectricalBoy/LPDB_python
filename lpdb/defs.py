@@ -17,27 +17,27 @@ class LpdbBaseData:
 
     @property
     def pageid(self) -> int:
-        return self._raw["pageid"]
+        return self._raw.get("pageid")
 
     @property
     def pagename(self) -> str:
-        return self._raw["pagename"]
+        return self._raw.get("pagename")
 
     @property
     def namespace(self) -> int:
-        return self._raw["namespace"]
+        return self._raw.get("namespace")
 
     @property
     def objectname(self) -> str:
-        return self._raw["objectname"]
+        return self._raw.get("objectname")
 
     @property
     def extradata(self) -> Optional[dict[str, Any]]:
-        return self._raw["extradata"]
+        return self._raw.get("extradata")
 
     @property
     def wiki(self) -> str:
-        return self._raw["wiki"]
+        return self._raw.get("wiki")
 
     def __repr__(self):
         return repr(self._raw)
@@ -64,39 +64,39 @@ class Broadcasters(LpdbBaseData):
 
     @property
     def id(self) -> str:
-        return self._raw["id"]
+        return self._raw.get("id")
 
     @property
     def name(self) -> str:
-        return self._raw["name"]
+        return self._raw.get("name")
 
     @property
     def page(self) -> str:
-        return self._raw["page"]
+        return self._raw.get("page")
 
     @property
     def position(self) -> str:
-        return self._raw["position"]
+        return self._raw.get("position")
 
     @property
     def language(self) -> str:
-        return self._raw["language"]
+        return self._raw.get("language")
 
     @property
     def flag(self) -> str:
-        return self._raw["flag"]
+        return self._raw.get("flag")
 
     @property
     def weight(self) -> float:
-        return self._raw["weight"]
+        return self._raw.get("weight")
 
     @property
     def date(self) -> Optional[date]:
-        return LpdbBaseData._parseIsoDate(self._raw["date"])
+        return LpdbBaseData._parseIsoDate(self._raw.get("date"))
 
     @property
     def parent(self) -> str:
-        return self._raw["parent"]
+        return self._raw.get("parent")
 
 
 class Company(LpdbBaseData):
@@ -106,55 +106,55 @@ class Company(LpdbBaseData):
 
     @property
     def name(self) -> str:
-        return self._raw["name"]
+        return self._raw.get("name")
 
     @property
     def image(self) -> str:
-        return self._raw["image"]
+        return self._raw.get("image")
 
     @property
     def imageurl(self) -> str:
-        return self._raw["imageurl"]
+        return self._raw.get("imageurl")
 
     @property
     def imagedark(self) -> str:
-        return self._raw["imagedark"]
+        return self._raw.get("imagedark")
 
     @property
     def imagedarkurl(self) -> str:
-        return self._raw["imagedarkurl"]
+        return self._raw.get("imagedarkurl")
 
     @property
     def locations(self) -> list:
-        return self._raw["locations"]
+        return self._raw.get("locations")
 
     @property
     def parentcompany(self) -> str:
-        return self._raw["parentcompany"]
+        return self._raw.get("parentcompany")
 
     @property
     def sistercompany(self) -> str:
-        return self._raw["sistercompany"]
+        return self._raw.get("sistercompany")
 
     @property
     def industry(self) -> str:
-        return self._raw["industry"]
+        return self._raw.get("industry")
 
     @property
     def foundeddate(self) -> Optional[datetime]:
-        return LpdbBaseData._parseIsoDateTime(self._raw["foundeddate"])
+        return LpdbBaseData._parseIsoDateTime(self._raw.get("foundeddate"))
 
     @property
     def defunctdate(self) -> Optional[datetime]:
-        return LpdbBaseData._parseIsoDateTime(self._raw["defunctdate"])
+        return LpdbBaseData._parseIsoDateTime(self._raw.get("defunctdate"))
 
     @property
     def defunctfate(self) -> str:
-        return self._raw["defunctfate"]
+        return self._raw.get("defunctfate")
 
     @property
     def links(self) -> dict[str, Any]:
-        return self._raw["links"]
+        return self._raw.get("links")
 
 
 class Datapoint(LpdbBaseData):
@@ -164,31 +164,31 @@ class Datapoint(LpdbBaseData):
 
     @property
     def type(self) -> str:
-        return self._raw["type"]
+        return self._raw.get("type")
 
     @property
     def name(self) -> str:
-        return self._raw["name"]
+        return self._raw.get("name")
 
     @property
     def information(self) -> str:
-        return self._raw["information"]
+        return self._raw.get("information")
 
     @property
     def imageurl(self) -> str:
-        return self._raw["imageurl"]
+        return self._raw.get("imageurl")
 
     @property
     def imagedark(self) -> str:
-        return self._raw["imagedark"]
+        return self._raw.get("imagedark")
 
     @property
     def imagedarkurl(self) -> str:
-        return self._raw["imagedarkurl"]
+        return self._raw.get("imagedarkurl")
 
     @property
     def date(self) -> Optional[datetime]:
-        return LpdbBaseData._parseIsoDateTime(self._raw["date"])
+        return LpdbBaseData._parseIsoDateTime(self._raw.get("date"))
 
 
 class ExternalMediaLink(LpdbBaseData):
@@ -198,35 +198,35 @@ class ExternalMediaLink(LpdbBaseData):
 
     @property
     def title(self) -> str:
-        return self._raw["title"]
+        return self._raw.get("title")
 
     @property
     def translatedtitle(self) -> str:
-        return self._raw["translatedtitle"]
+        return self._raw.get("translatedtitle")
 
     @property
     def link(self) -> str:
-        return self._raw["link"]
+        return self._raw.get("link")
 
     @property
     def date(self) -> Optional[date]:
-        return LpdbBaseData._parseIsoDate(self._raw["date"])
+        return LpdbBaseData._parseIsoDate(self._raw.get("date"))
 
     @property
     def authors(self) -> dict[str, str]:
-        return self._raw["authors"]
+        return self._raw.get("authors")
 
     @property
     def language(self) -> str:
-        return self._raw["language"]
+        return self._raw.get("language")
 
     @property
     def publisher(self) -> str:
-        return self._raw["publisher"]
+        return self._raw.get("publisher")
 
     @property
     def type(self) -> str:
-        return self._raw["type"]
+        return self._raw.get("type")
 
 
 def x() -> Broadcasters:
