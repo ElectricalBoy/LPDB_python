@@ -535,6 +535,118 @@ class MatchOpponent(LpdbBaseData):
     def teamtemplate(self) -> dict:
         return self._rawGet('teamtemplate')
 
+class Placement(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def tournament(self) -> str:
+        return self._rawGet("tournament")
+
+    @property
+    def series(self) -> str:
+        return self._rawGet("series")
+
+    @property
+    def parent(self) -> str:
+        return self._rawGet("parent")
+
+    @property
+    def imageurl(self) -> str:
+        return self._rawGet("imageurl")
+
+    @property
+    def imagedarkurl(self) -> str:
+        return self._rawGet("imagedarkurl")
+
+    @property
+    def startdate(self) -> Optional[datetime]:
+        return LpdbBaseData._parseIsoDateTime(self._rawGet("startdate"))
+
+    @property
+    def date(self) -> Optional[datetime]:
+        return LpdbBaseData._parseIsoDateTime(self._rawGet("date"))
+
+    @property
+    def prizemoney(self) -> int|float:
+        return self._rawGet("placement")
+
+    @property
+    def weight(self) -> int|float:
+        return self._rawGet("weight")
+
+    @property
+    def mode(self) -> str:
+        return self._rawGet("mode")
+
+    @property
+    def type(self) -> str:
+        return self._rawGet("type")
+
+    @property
+    def liquipediatier(self) -> str:
+        return self._rawGet("liquipediatier")
+
+    @property
+    def liquipediatiertype(self) -> str:
+        return self._rawGet("liquipediatiertype")
+
+    @property
+    def publishertier(self) -> str:
+        return self._rawGet("publishertier")
+
+    @property
+    def icon(self) -> str:
+        return self._rawGet("icon")
+
+    @property
+    def iconurl(self) -> str:
+        return self._rawGet("iconurl")
+
+    @property
+    def icondark(self) -> str:
+        return self._rawGet("icondark")
+
+    @property
+    def icondarkurl(self) -> str:
+        return self._rawGet("icondarkurl")
+
+    @property
+    def game(self) -> str:
+        return self._rawGet("game")
+
+    @property
+    def lastvsdata(self) -> dict:
+        return self._rawGet("lastvsdata")
+
+    @property
+    def opponentname(self) -> str:
+        return self._rawGet("opponentname")
+
+    @property
+    def opponenttemplate(self) -> Optional[str]:
+        return self._rawGet("opponenttemplate")
+
+    @property
+    def opponenttype(self) -> OpponentType:
+        return OpponentType(self._rawGet("opponenttype"))
+
+    @property
+    def opponentplayers(self) -> dict:
+        return self._rawGet("opponentplayers")
+
+    @property
+    def qualifier(self) -> str:
+        return self._rawGet("qualifier")
+
+    @property
+    def qualifierpage(self) -> str:
+        return self._rawGet("qualifierpage")
+
+    @property
+    def qualifierurl(self) -> str:
+        return self._rawGet("qualifierurl")
+
 
 def x() -> Broadcasters:
     b = Broadcasters()
