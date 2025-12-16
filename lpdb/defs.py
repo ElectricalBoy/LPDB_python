@@ -297,16 +297,22 @@ class Match(LpdbBaseData):
         if not self.dateexact:
             return  LpdbBaseData._parseIsoDate(self._rawGet("date"))
         parsed = LpdbBaseData._parseIsoDateTime(self._rawGet("date"))
-        offset: str = self.extradata.get('timezoneoffset')
-        if offset == None:
-            return parsed
-        sliced_offset = offset.split(':')
-        offset_delta = timedelta(hours=int(sliced_offset[0]), minutes=int(sliced_offset[1]))
-        return parsed.astimezone(tz=timezone(offset_delta, name=self.extradata.get('timezoneid')))
+        return parsed.astimezone(tz=self.timezone)
 
     @property
     def dateexact(self) -> bool:
         return bool(self._rawGet("dateexact"))
+
+    @property
+    def timezone(self) -> Optional[timezone]:
+        if not self.dateexact:
+            return None
+        offset: str = self.extradata.get('timezoneoffset')
+        if offset == None:
+            return None
+        sliced_offset = offset.split(':')
+        offset_delta = timedelta(hours=int(sliced_offset[0]), minutes=int(sliced_offset[1]))
+        return timezone(offset_delta, name=self.extradata.get('timezoneid'))
 
     @property
     def stream(self) -> dict[str, Any]:
