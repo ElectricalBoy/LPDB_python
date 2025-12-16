@@ -737,6 +737,99 @@ class Player(LpdbBaseResponseData):
         return self._rawGet("earningsbyyear")
 
 
+class Series(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def name(self) -> str:
+        return self._rawGet("name")
+
+    @property
+    def abbreviation(self) -> str:
+        return self._rawGet("abbreviation")
+
+    @property
+    def image(self) -> str:
+        return self._rawGet("image")
+
+    @property
+    def imageurl(self) -> str:
+        return self._rawGet("imageurl")
+
+    @property
+    def imagedark(self) -> str:
+        return self._rawGet("imagedark")
+
+    @property
+    def imagedarkurl(self) -> str:
+        return self._rawGet("imagedarkurl")
+
+    @property
+    def icon(self) -> str:
+        return self._rawGet("icon")
+
+    @property
+    def iconurl(self) -> str:
+        return self._rawGet("iconurl")
+
+    @property
+    def icondark(self) -> str:
+        return self._rawGet("icondark")
+
+    @property
+    def icondarkurl(self) -> str:
+        return self._rawGet("icondarkurl")
+
+    @property
+    def game(self) -> str:
+        return self._rawGet("game")
+
+    @property
+    def type(self) -> str:
+        return self._rawGet("type")
+
+    @property
+    def organizers(self) -> dict:
+        return self._rawGet("organizers")
+
+    @property
+    def locations(self) -> dict:
+        return self._rawGet("locations")
+
+    @property
+    def prizepool(self) -> int | float:
+        return self._rawGet("prizepool")
+
+    @property
+    def liquipediatier(self) -> str:
+        return self._rawGet("liquipediatier")
+
+    @property
+    def liquipediatiertype(self) -> str:
+        return self._rawGet("liquipediatiertype")
+
+    @property
+    def publishertier(self) -> str:
+        return self._rawGet("publishertier")
+
+    @property
+    def launcheddate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("launcheddate"))
+
+    @property
+    def defunctdate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("defunctdate"))
+
+    @property
+    def defunctfate(self) -> str:
+        return self._rawGet("defunctfate")
+
+    @property
+    def links(self) -> dict:
+        return self._rawGet("links")
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
