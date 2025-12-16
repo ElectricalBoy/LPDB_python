@@ -12,12 +12,12 @@ class OpponentType(StrEnum):
 
 class LpdbBaseData:
     """
-    Base class of all LPDB response data
+    Base class of all LPDB data
     """
 
     _raw: dict[str, Any]
     """
-    Raw response from LPDB in Python dict form
+    Raw data from LPDB in Python dict form
     """
 
     def __init__(self, raw: dict[str, Any]):
@@ -25,6 +25,35 @@ class LpdbBaseData:
 
     def _rawGet(self, key: str):
         return self._raw.get(key)
+
+    @property
+    def extradata(self) -> Optional[dict[str, Any]]:
+        return self._rawGet("extradata")
+
+    def __repr__(self):
+        return repr(self._raw)
+
+    @staticmethod
+    def _parseIsoDate(date_str: str) -> Optional[date]:
+        try:
+            return date.fromisoformat(date_str)
+        except ValueError:
+            return None
+
+    @staticmethod
+    def _parseIsoDateTime(datetime_str: str) -> Optional[datetime]:
+        try:
+            return datetime.fromisoformat(datetime_str).replace(tzinfo=UTC)
+        except ValueError:
+            return None
+
+class LpdbBaseResponseData(LpdbBaseData):
+    """
+    Base class of all LPDB response data
+    """
+
+    def __init__(self, raw):
+        super().__init__(raw)
 
     @property
     def pageid(self) -> int:
@@ -50,25 +79,8 @@ class LpdbBaseData:
     def wiki(self) -> str:
         return self._rawGet("wiki")
 
-    def __repr__(self):
-        return repr(self._raw)
 
-    @staticmethod
-    def _parseIsoDate(date_str: str) -> Optional[date]:
-        try:
-            return date.fromisoformat(date_str)
-        except ValueError:
-            return None
-
-    @staticmethod
-    def _parseIsoDateTime(datetime_str: str) -> Optional[datetime]:
-        try:
-            return datetime.fromisoformat(datetime_str).replace(tzinfo=UTC)
-        except ValueError:
-            return None
-
-
-class Broadcasters(LpdbBaseData):
+class Broadcasters(LpdbBaseResponseData):
 
     def __init__(self, raw):
         super().__init__(raw)
@@ -110,7 +122,7 @@ class Broadcasters(LpdbBaseData):
         return self._rawGet("parent")
 
 
-class Company(LpdbBaseData):
+class Company(LpdbBaseResponseData):
 
     def __init__(self, raw):
         super().__init__(raw)
@@ -168,7 +180,7 @@ class Company(LpdbBaseData):
         return self._rawGet("links")
 
 
-class Datapoint(LpdbBaseData):
+class Datapoint(LpdbBaseResponseData):
 
     def __init__(self, raw):
         super().__init__(raw)
@@ -202,7 +214,7 @@ class Datapoint(LpdbBaseData):
         return LpdbBaseData._parseIsoDateTime(self._rawGet("date"))
 
 
-class ExternalMediaLink(LpdbBaseData):
+class ExternalMediaLink(LpdbBaseResponseData):
 
     def __init__(self, raw):
         super().__init__(raw)
@@ -240,145 +252,7 @@ class ExternalMediaLink(LpdbBaseData):
         return self._rawGet("type")
 
 
-class Match(LpdbBaseData):
-    class Game:
-        _parent: 'Match'
-        _raw: dict[str, Any]
-
-        def __init__(self, parent: 'Match', raw: dict[str, Any]):
-            self._parent = parent
-            self._raw = raw
-
-        @property
-        def map(self) -> str:
-            return self._raw.get('map')
-
-        @property
-        def subgroup(self) -> str:
-            return self._raw.get('subgroup')
-
-        @property
-        def match2gameid(self) -> int:
-            return self._raw.get('match2gameid')
-
-        @property
-        def scores(self) -> list[int|float]:
-            return self._raw.get('scores')
-
-        @property
-        def opponents(self) -> list[dict]:
-            return self._raw.get('opponents')
-
-        @property
-        def status(self) -> str:
-            return self._raw.get('status')
-
-        @property
-        def winner(self) -> str:
-            return self._raw.get('winner')
-
-        @property
-        def walkover(self):
-            return self._raw.get('walkover')
-
-        @property
-        def resulttype(self) -> str:
-            return self._raw.get('resulttype')
-
-        @property
-        def date(self) -> datetime:
-            parsed = LpdbBaseData._parseIsoDateTime(self._raw.get('date'))
-            if not self.dateexact:
-                return parsed
-            return parsed.astimezone(self._parent.timezone)
-
-        def dateexact(self) -> bool:
-            return self.extradata.get('dateexact')
-
-        @property
-        def mode(self) -> str:
-            return self._raw.get('mode')
-
-        @property
-        def type(self) -> str:
-            return self._raw.get('type')
-
-        @property
-        def game(self) -> str:
-            return self._raw.get('game')
-
-        @property
-        def patch(self) -> str:
-            return self._raw.get('patch')
-
-        @property
-        def vod(self) -> str:
-            return self._raw.get('vod')
-
-        @property
-        def length(self) -> str:
-            return self._raw.get('length')
-
-        @property
-        def extradata(self) -> dict:
-            return self._raw.get('extradata')
-
-        def __repr__(self):
-            return repr(self._raw)
-
-    class Opponent:
-        _raw: dict[str, Any]
-
-        def __init__(self, raw: dict[str, Any]):
-            self._raw = raw
-
-        @property
-        def id(self) -> int:
-            return self._raw.get('id')
-
-        @property
-        def type(self) -> OpponentType:
-            return OpponentType(self._raw.get('type'))
-
-        @property
-        def name(self) -> str:
-            return self._raw.get('name')
-
-        @property
-        def template(self) -> Optional[str]:
-            return self._raw.get('template')
-
-        @property
-        def icon(self) -> str:
-            return self._raw.get('icon')
-
-        @property
-        def score(self) -> int|float:
-            return self._raw.get('score')
-
-        @property
-        def status(self) -> str:
-            return self._raw.get('status')
-
-        @property
-        def placement(self) -> int:
-            return self._raw.get('placement')
-
-        @property
-        def match2players(self) -> list[dict]:
-            return self._raw.get('match2players')
-
-        @property
-        def extradata(self) -> dict:
-            return self._raw.get('extradata')
-        
-        @property
-        def teamtemplate(self) -> dict:
-            return self._raw.get('teamtemplate')
-
-        def __repr__(self):
-            return repr(self._raw)
-
+class Match(LpdbBaseResponseData):
 
     def __init__(self, raw):
         super().__init__(raw)
@@ -526,12 +400,140 @@ class Match(LpdbBaseData):
         return self._rawGet("tickername")
 
     @property
-    def match2games(self) -> list[Game]:
-        return [Match.Game(self, match2game) for match2game in self._rawGet("match2games")]
+    def match2games(self) -> list['MatchGame']:
+        return [MatchGame(self, match2game) for match2game in self._rawGet("match2games")]
 
     @property
-    def match2opponents(self) -> list[Opponent]:
-        return [Match.Opponent(match2opponent) for match2opponent in self._rawGet("match2opponents")]
+    def match2opponents(self) -> list['MatchOpponent']:
+        return [MatchOpponent(match2opponent) for match2opponent in self._rawGet("match2opponents")]
+
+class MatchGame(LpdbBaseData):
+    _parent: 'Match'
+
+    def __init__(self, parent: 'Match', raw: dict[str, Any]):
+        super().__init__(raw)
+        self._parent = parent
+
+    @property
+    def map(self) -> str:
+        return self._rawGet('map')
+
+    @property
+    def subgroup(self) -> str:
+        return self._rawGet('subgroup')
+
+    @property
+    def match2gameid(self) -> int:
+        return self._rawGet('match2gameid')
+
+    @property
+    def scores(self) -> list[int|float]:
+        return self._rawGet('scores')
+
+    @property
+    def opponents(self) -> list[dict]:
+        return self._rawGet('opponents')
+
+    @property
+    def status(self) -> str:
+        return self._rawGet('status')
+
+    @property
+    def winner(self) -> str:
+        return self._rawGet('winner')
+
+    @property
+    def walkover(self):
+        return self._rawGet('walkover')
+
+    @property
+    def resulttype(self) -> str:
+        return self._rawGet('resulttype')
+
+    @property
+    def date(self) -> datetime:
+        parsed = LpdbBaseData._parseIsoDateTime(self._rawGet('date'))
+        if not self.dateexact:
+            return parsed
+        return parsed.astimezone(self._parent.timezone)
+
+    @property
+    def dateexact(self) -> bool:
+        return self.extradata.get('dateexact')
+
+    @property
+    def mode(self) -> str:
+        return self._rawGet('mode')
+
+    @property
+    def type(self) -> str:
+        return self._rawGet('type')
+
+    @property
+    def game(self) -> str:
+        return self._rawGet('game')
+
+    @property
+    def patch(self) -> str:
+        return self._rawGet('patch')
+
+    @property
+    def vod(self) -> str:
+        return self._rawGet('vod')
+
+    @property
+    def length(self) -> str:
+        return self._rawGet('length')
+
+class MatchOpponent(LpdbBaseData):
+    _raw: dict[str, Any]
+
+    def __init__(self, raw: dict[str, Any]):
+        self._raw = raw
+
+    @property
+    def id(self) -> int:
+        return self._rawGet('id')
+
+    @property
+    def type(self) -> OpponentType:
+        return OpponentType(self._rawGet('type'))
+
+    @property
+    def name(self) -> str:
+        return self._rawGet('name')
+
+    @property
+    def template(self) -> Optional[str]:
+        return self._rawGet('template')
+
+    @property
+    def icon(self) -> str:
+        return self._rawGet('icon')
+
+    @property
+    def score(self) -> int|float:
+        return self._rawGet('score')
+
+    @property
+    def status(self) -> str:
+        return self._rawGet('status')
+
+    @property
+    def placement(self) -> int:
+        return self._rawGet('placement')
+
+    @property
+    def match2players(self) -> list[dict]:
+        return self._rawGet('match2players')
+
+    @property
+    def extradata(self) -> dict:
+        return self._rawGet('extradata')
+
+    @property
+    def teamtemplate(self) -> dict:
+        return self._rawGet('teamtemplate')
 
 
 def x() -> Broadcasters:
