@@ -365,7 +365,7 @@ class Match(LpdbBaseData):
         return self._rawGet("publishertier")
 
     @property
-    def match2bracketdata(self) -> str:
+    def match2bracketdata(self) -> dict:
         return self._rawGet("match2bracketdata")
 
     @property
@@ -373,11 +373,11 @@ class Match(LpdbBaseData):
         return self._rawGet("tickername")
 
     @property
-    def match2games(self) -> str:
+    def match2games(self) -> list:
         return self._rawGet("match2games")
 
     @property
-    def match2opponents(self) -> str:
+    def match2opponents(self) -> list:
         return self._rawGet("match2opponents")
 
 
