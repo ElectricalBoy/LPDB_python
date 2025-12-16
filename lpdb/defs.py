@@ -26,7 +26,10 @@ class LpdbBaseData:
         self._raw = raw
 
     def _rawGet(self, key: str):
-        return self._raw.get(key)
+        value = self._raw.get(key)
+        if value == '':
+            return None
+        return value
 
     @property
     def extradata(self) -> Optional[dict[str, Any]]:
