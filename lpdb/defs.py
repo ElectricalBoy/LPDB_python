@@ -27,7 +27,7 @@ class LpdbBaseData:
 
     def _rawGet(self, key: str):
         value = self._raw.get(key)
-        if value == '':
+        if value == "":
             return None
         return value
 
@@ -662,6 +662,79 @@ class Placement(LpdbBaseResponseData):
     @property
     def qualifierurl(self) -> str:
         return self._rawGet("qualifierurl")
+
+
+class Player(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def id(self) -> str:
+        return self._rawGet("id")
+
+    @property
+    def alternateid(self) -> str:
+        return self._rawGet("alternateid")
+
+    @property
+    def name(self) -> str:
+        return self._rawGet("name")
+
+    @property
+    def localizedname(self) -> str:
+        return self._rawGet("localizedname")
+
+    @property
+    def type(self) -> str:
+        return self._rawGet("type")
+
+    @property
+    def nationality(self) -> str:
+        return self._rawGet("nationality")
+
+    @property
+    def nationality2(self) -> str:
+        return self._rawGet("nationality2")
+
+    @property
+    def nationality3(self) -> str:
+        return self._rawGet("nationality3")
+
+    @property
+    def region(self) -> str:
+        return self._rawGet("region")
+
+    @property
+    def birthdate(self) -> Optional[date]:
+        return LpdbBaseData._parseIsoDate(self._rawGet("birthdate"))
+
+    @property
+    def deathdate(self) -> Optional[date]:
+        return LpdbBaseData._parseIsoDate(self._rawGet("deathdate"))
+
+    @property
+    def teampagename(self) -> str:
+        return self._rawGet("teampagename")
+
+    @property
+    def teamtemplate(self) -> str:
+        return self._rawGet("teamtemplate")
+
+    @property
+    def links(self) -> dict:
+        return self._rawGet("links")
+
+    @property
+    def status(self) -> str:
+        return self._rawGet("status")
+
+    @property
+    def earnings(self) -> int | float:
+        return self._rawGet("earnings")
+
+    @property
+    def earningsbyyear(self) -> dict[str, int | float]:
+        return self._rawGet("earningsbyyear")
 
 
 def x() -> Broadcasters:
