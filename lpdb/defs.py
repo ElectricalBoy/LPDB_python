@@ -830,6 +830,79 @@ class Series(LpdbBaseResponseData):
         return self._rawGet("links")
 
 
+class SquadPlayer(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def id(self) -> str:
+        return self._rawGet("id")
+
+    @property
+    def link(self) -> str:
+        return self._rawGet("link")
+
+    @property
+    def name(self) -> str:
+        return self._rawGet("name")
+
+    @property
+    def nationality(self) -> str:
+        return self._rawGet("nationality")
+
+    @property
+    def position(self) -> str:
+        return self._rawGet("position")
+
+    @property
+    def role(self) -> str:
+        return self._rawGet("role")
+
+    @property
+    def type(self) -> str:
+        return self._rawGet("type")
+
+    @property
+    def newteam(self) -> str:
+        return self._rawGet("newteam")
+
+    @property
+    def teamtemplate(self) -> str:
+        return self._rawGet("teamtemplate")
+
+    @property
+    def newteamtemplate(self) -> str:
+        return self._rawGet("newteamtemplate")
+
+    @property
+    def status(self) -> str:
+        return self._rawGet("status")
+
+    @property
+    def joindate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("joindate"))
+
+    @property
+    def joindateref(self) -> dict:
+        return self._rawGet("joindateref")
+
+    @property
+    def leavedate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("leavedate"))
+
+    @property
+    def leavedateref(self) -> dict:
+        return self._rawGet("leavedateref")
+
+    @property
+    def inactivedate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("inactivedate"))
+
+    @property
+    def inactivedateref(self) -> dict:
+        return self._rawGet("inactivedateref")
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
