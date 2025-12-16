@@ -1,6 +1,14 @@
 from datetime import date, datetime, timedelta, timezone, UTC
+from enum import StrEnum
 from typing import Any, Optional
 
+class OpponentType(StrEnum):
+    team = 'team'
+    solo = 'solo'
+    duo = 'duo'
+    trio = 'trio'
+    quad = 'quad'
+    literal = 'literal'
 
 class LpdbBaseData:
     """
@@ -318,6 +326,59 @@ class Match(LpdbBaseData):
         def __repr__(self):
             return repr(self._raw)
 
+    class Opponent:
+        _raw: dict[str, Any]
+
+        def __init__(self, raw: dict[str, Any]):
+            self._raw = raw
+
+        @property
+        def id(self) -> int:
+            return self._raw.get('id')
+
+        @property
+        def type(self) -> OpponentType:
+            return OpponentType(self._raw.get('type'))
+
+        @property
+        def name(self) -> str:
+            return self._raw.get('name')
+
+        @property
+        def template(self) -> Optional[str]:
+            return self._raw.get('template')
+
+        @property
+        def icon(self) -> str:
+            return self._raw.get('icon')
+
+        @property
+        def score(self) -> int|float:
+            return self._raw.get('score')
+
+        @property
+        def status(self) -> str:
+            return self._raw.get('status')
+
+        @property
+        def placement(self) -> int:
+            return self._raw.get('placement')
+
+        @property
+        def match2players(self) -> list[dict]:
+            return self._raw.get('match2players')
+
+        @property
+        def extradata(self) -> dict:
+            return self._raw.get('extradata')
+        
+        @property
+        def teamtemplate(self) -> dict:
+            return self._raw.get('teamtemplate')
+
+        def __repr__(self):
+            return repr(self._raw)
+
 
     def __init__(self, raw):
         super().__init__(raw)
@@ -469,8 +530,8 @@ class Match(LpdbBaseData):
         return [Match.Game(self, match2game) for match2game in self._rawGet("match2games")]
 
     @property
-    def match2opponents(self) -> list:
-        return self._rawGet("match2opponents")
+    def match2opponents(self) -> list[Opponent]:
+        return [Match.Opponent(match2opponent) for match2opponent in self._rawGet("match2opponents")]
 
 
 def x() -> Broadcasters:
