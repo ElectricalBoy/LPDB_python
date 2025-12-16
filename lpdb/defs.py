@@ -1,4 +1,4 @@
-from datetime import date, datetime, UTC
+from datetime import date, datetime, timedelta, timezone, UTC
 from typing import Any, Optional
 
 
@@ -259,7 +259,7 @@ class Match(LpdbBaseData):
 
     @property
     def finished(self) -> bool:
-        return self._raw.get("finished")
+        return bool(self._raw.get("finished"))
 
     @property
     def mode(self) -> str:
@@ -290,12 +290,20 @@ class Match(LpdbBaseData):
         return self._raw.get("bestof")
 
     @property
-    def date(self) -> Optional[datetime]:
-        return LpdbBaseData._parseIsoDateTime(self._raw.get("date"))
+    def date(self) -> Optional[date | datetime]:
+        if not self.dateexact:
+            return  LpdbBaseData._parseIsoDate(self._raw.get("date"))
+        parsed = LpdbBaseData._parseIsoDateTime(self._raw.get("date"))
+        offset: str = self.extradata.get('timezoneoffset')
+        if offset == None:
+            return parsed
+        sliced_offset = offset.split(':')
+        offset_delta = timedelta(hours=int(sliced_offset[0]), minutes=int(sliced_offset[1]))
+        return parsed.astimezone(tz=timezone(offset_delta, name=self.extradata.get('timezoneid')))
 
     @property
     def dateexact(self) -> bool:
-        return self._raw.get("dateexact")
+        return bool(self._raw.get("dateexact"))
 
     @property
     def stream(self) -> dict[str, Any]:
