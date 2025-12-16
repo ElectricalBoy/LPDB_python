@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 from http import HTTPStatus
 from types import TracebackType
-from typing import Any, Final, NotRequired, Optional, Required, Type, TypedDict
+from typing import Any, Final, Literal, NotRequired, Optional, Required, Type, TypedDict
 
 import aiohttp
 import requests
@@ -30,9 +30,50 @@ class AbstractLpdbSession(ABC):
 
     @abstractmethod
     def get_response(
-        self, lpdb_datatype, lpdb_params
+        self,
+        lpdb_datatype,
+        wiki: str | list[str],
+        limit: int = 20,
+        offset: int = 0,
+        conditions: Optional[str] = None,
+        query: Optional[list[str]] = None,
+        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
     ) -> tuple[HTTPStatus, LpdbResponse]:
         pass
+
+    @staticmethod
+    def parse_params(
+        wiki: str | list[str],
+        limit: int = 20,
+        offset: int = 0,
+        conditions: Optional[str] = None,
+        query: Optional[list[str]] = None,
+        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+    ):
+        parameters = dict()
+        if isinstance(wiki, str):
+            parameters["wiki"] = wiki
+        elif isinstance(wiki, list):
+            parameters["wiki"] = "|".join(wiki)
+        else:
+            raise TypeError()
+        parameters["limit"] = max(limit, 1000)
+        parameters["offset"] = offset
+        if conditions != None:
+            parameters["conditions"] = conditions
+        if query != None:
+            parameters["query"] = ", ".join(query)
+        if order != None:
+            parameters["order"] = ", ".join(
+                [f"{order_tuple[0]} {order_tuple[1]}" for order_tuple in order]
+            )
+        if groupby != None:
+            parameters["groupby"] = ", ".join(
+                [f"{groupby_tuple[0]} {groupby_tuple[1]}" for groupby_tuple in groupby]
+            )
+        return parameters
 
 
 class LpdbSession(AbstractLpdbSession):
@@ -48,12 +89,28 @@ class LpdbSession(AbstractLpdbSession):
         return set(wikis["allwikis"].keys())
 
     def get_response(
-        self, lpdb_datatype, lpdb_params
+        self,
+        lpdb_datatype,
+        wiki: str | list[str],
+        limit: int = 20,
+        offset: int = 0,
+        conditions: Optional[str] = None,
+        query: Optional[list[str]] = None,
+        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
     ) -> tuple[HTTPStatus, LpdbResponse]:
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + lpdb_datatype,
             headers=self._get_header(),
-            params=lpdb_params,
+            params=AbstractLpdbSession.parse_params(
+                wiki=wiki,
+                limit=limit,
+                offset=offset,
+                conditions=conditions,
+                query=query,
+                order=order,
+                groupby=groupby,
+            ),
         )
         lpdb_status = HTTPStatus(lpdb_response.status_code)
         return (lpdb_status, lpdb_response.json())
@@ -100,10 +157,28 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 return set(wikis["allwikis"].keys())
 
     async def get_response(
-        self, lpdb_datatype, lpdb_params
+        self,
+        lpdb_datatype,
+        wiki: str | list[str],
+        limit: int = 20,
+        offset: int = 0,
+        conditions: Optional[str] = None,
+        query: Optional[list[str]] = None,
+        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
     ) -> tuple[HTTPStatus, LpdbResponse]:
         async with self.__session.get(
-            lpdb_datatype, headers=self._get_header(), params=lpdb_params
+            lpdb_datatype,
+            headers=self._get_header(),
+            params=AbstractLpdbSession.parse_params(
+                wiki=wiki,
+                limit=limit,
+                offset=offset,
+                conditions=conditions,
+                query=query,
+                order=order,
+                groupby=groupby,
+            ),
         ) as response:
             lpdb_status = HTTPStatus(response.status)
             lpdb_response = await response.json()
