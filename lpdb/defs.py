@@ -233,6 +233,92 @@ class ExternalMediaLink(LpdbBaseData):
 
 
 class Match(LpdbBaseData):
+    class Game:
+        _parent: 'Match'
+        _raw: dict[str, Any]
+
+        def __init__(self, parent: 'Match', raw: dict[str, Any]):
+            self._parent = parent
+            self._raw = raw
+
+        @property
+        def map(self) -> str:
+            return self._raw.get('map')
+
+        @property
+        def subgroup(self) -> str:
+            return self._raw.get('subgroup')
+
+        @property
+        def match2gameid(self) -> int:
+            return self._raw.get('match2gameid')
+
+        @property
+        def scores(self) -> list[int|float]:
+            return self._raw.get('scores')
+
+        @property
+        def opponents(self) -> list[dict]:
+            return self._raw.get('opponents')
+
+        @property
+        def status(self) -> str:
+            return self._raw.get('status')
+
+        @property
+        def winner(self) -> str:
+            return self._raw.get('winner')
+
+        @property
+        def walkover(self):
+            return self._raw.get('walkover')
+
+        @property
+        def resulttype(self) -> str:
+            return self._raw.get('resulttype')
+
+        @property
+        def date(self) -> datetime:
+            parsed = LpdbBaseData._parseIsoDateTime(self._raw.get('date'))
+            if not self.dateexact:
+                return parsed
+            return parsed.astimezone(self._parent.timezone)
+
+        def dateexact(self) -> bool:
+            return self.extradata.get('dateexact')
+
+        @property
+        def mode(self) -> str:
+            return self._raw.get('mode')
+
+        @property
+        def type(self) -> str:
+            return self._raw.get('type')
+
+        @property
+        def game(self) -> str:
+            return self._raw.get('game')
+
+        @property
+        def patch(self) -> str:
+            return self._raw.get('patch')
+
+        @property
+        def vod(self) -> str:
+            return self._raw.get('vod')
+
+        @property
+        def length(self) -> str:
+            return self._raw.get('length')
+
+        @property
+        def extradata(self) -> dict:
+            return self._raw.get('extradata')
+
+        def __repr__(self):
+            return repr(self._raw)
+
+
     def __init__(self, raw):
         super().__init__(raw)
 
@@ -379,8 +465,8 @@ class Match(LpdbBaseData):
         return self._rawGet("tickername")
 
     @property
-    def match2games(self) -> list:
-        return self._rawGet("match2games")
+    def match2games(self) -> list[Game]:
+        return [Match.Game(self, match2game) for match2game in self._rawGet("match2games")]
 
     @property
     def match2opponents(self) -> list:
