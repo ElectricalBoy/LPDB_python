@@ -1218,6 +1218,55 @@ class Tournament(LpdbBaseResponseData):
         return self._rawGet("sponsors")
 
 
+class Transfer(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def player(self) -> str:
+        return self._rawGet("player")
+
+    @property
+    def nationality(self) -> str:
+        return self._rawGet("nationality")
+
+    @property
+    def fromteam(self) -> str:
+        return self._rawGet("fromteam")
+
+    @property
+    def toteam(self) -> str:
+        return self._rawGet("toteam")
+
+    @property
+    def fromteamtemplate(self) -> str:
+        return self._rawGet("fromteamtemplate")
+
+    @property
+    def toteamtemplate(self) -> str:
+        return self._rawGet("toteamtemplate")
+
+    @property
+    def role1(self) -> str:
+        return self._rawGet("role1")
+
+    @property
+    def role2(self) -> str:
+        return self._rawGet("role2")
+
+    @property
+    def reference(self) -> dict:
+        return self._rawGet("reference")
+
+    @property
+    def date(self) -> Optional[datetime]:
+        return LpdbBaseData._parseIsoDateTime(self._rawGet("date"))
+
+    @property
+    def wholeteam(self) -> bool:
+        return bool(self._rawGet("wholeteam"))
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
