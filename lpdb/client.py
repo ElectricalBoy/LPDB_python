@@ -24,7 +24,7 @@ class AbstractLpdbSession(ABC):
         self.__api_key = re.sub(r"^ApiKey ", "", api_key)
 
     def _get_header(self) -> dict[str, str]:
-        return {"authorization": f"Apikey {self.__api_key}"}
+        return {"authorization": f"Apikey {self.__api_key}", "accept-encoding": "gzip"}
 
     @staticmethod
     def get_wikis() -> set[str]:
