@@ -1066,6 +1066,158 @@ class Team(LpdbBaseResponseData):
         return self._rawGet("links")
 
 
+class Tournament(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def name(self) -> str:
+        return self._rawGet("name")
+
+    @property
+    def shortname(self) -> str:
+        return self._rawGet("shortname")
+
+    @property
+    def tickername(self) -> str:
+        return self._rawGet("tickername")
+
+    @property
+    def banner(self) -> str:
+        return self._rawGet("banner")
+
+    @property
+    def bannerurl(self) -> str:
+        return self._rawGet("bannerurl")
+
+    @property
+    def bannerdark(self) -> str:
+        return self._rawGet("bannerdark")
+
+    @property
+    def bannerdarkurl(self) -> str:
+        return self._rawGet("bannerdarkurl")
+
+    @property
+    def icon(self) -> str:
+        return self._rawGet("icon")
+
+    @property
+    def iconurl(self) -> str:
+        return self._rawGet("iconurl")
+
+    @property
+    def icondark(self) -> str:
+        return self._rawGet("icondark")
+
+    @property
+    def icondarkurl(self) -> str:
+        return self._rawGet("icondarkurl")
+
+    @property
+    def seriespage(self) -> str:
+        return self._rawGet("seriespage")
+
+    @property
+    def serieslist(self) -> dict:
+        return self._rawGet("serieslist")
+
+    @property
+    def previous(self) -> str:
+        return self._rawGet("previous")
+
+    @property
+    def previous2(self) -> str:
+        return self._rawGet("previous2")
+
+    @property
+    def next(self) -> str:
+        return self._rawGet("next")
+
+    @property
+    def next2(self) -> str:
+        return self._rawGet("next2")
+
+    @property
+    def game(self) -> str:
+        return self._rawGet("game")
+
+    @property
+    def mode(self) -> str:
+        return self._rawGet("mode")
+
+    @property
+    def patch(self) -> str:
+        return self._rawGet("patch")
+
+    @property
+    def endpatch(self) -> str:
+        return self._rawGet("endpatch")
+
+    @property
+    def type(self) -> str:
+        return self._rawGet("type")
+
+    @property
+    def organizers(self) -> dict:
+        return self._rawGet("organizers")
+
+    @property
+    def startdate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("startdate"))
+
+    @property
+    def enddate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("enddate"))
+
+    @property
+    def sortdate(self) -> date:
+        return LpdbBaseData._parseIsoDate(self._rawGet("sortdate"))
+
+    @property
+    def locations(self) -> dict:
+        return self._rawGet("locations")
+
+    @property
+    def prizepool(self) -> int | float:
+        return self._rawGet("prizepool")
+
+    @property
+    def participantsnumber(self) -> int:
+        return self._rawGet("participantsnumber")
+
+    @property
+    def liquipediatier(self) -> str:
+        return self._rawGet("liquipediatier")
+
+    @property
+    def liquipediatiertype(self) -> str:
+        return self._rawGet("liquipediatiertype")
+
+    @property
+    def publishertier(self) -> str:
+        return self._rawGet("publishertier")
+
+    @property
+    def status(self) -> dict:
+        return self._rawGet("status")
+
+    @property
+    def maps(self) -> list[str]:
+        map_data: Optional[str] = self._rawGet("maps")
+        if map_data == None:
+            return None
+        return map_data.split(";")
+
+    @property
+    def format(self) -> str:
+        return self._rawGet("format")
+
+    @property
+    def sponsors(self) -> dict:
+        return self._rawGet("sponsors")
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
