@@ -1,3 +1,5 @@
+import json
+
 from datetime import date, datetime, timedelta, timezone, UTC
 from enum import StrEnum
 from typing import Any, Optional
@@ -1215,7 +1217,7 @@ class Tournament(LpdbBaseResponseData):
 
     @property
     def sponsors(self) -> dict:
-        return self._rawGet("sponsors")
+        return json.loads(self._rawGet("sponsors"))
 
 
 class Transfer(LpdbBaseResponseData):
