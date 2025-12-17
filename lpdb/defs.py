@@ -997,6 +997,75 @@ class StandingsTable(LpdbBaseResponseData):
         return self._rawGet("config")
 
 
+class Team(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def name(self) -> str:
+        return self._rawGet("name")
+
+    @property
+    def locations(self) -> dict:
+        return self._rawGet("locations")
+
+    @property
+    def region(self) -> str:
+        return self._rawGet("region")
+
+    @property
+    def logo(self) -> str:
+        return self._rawGet("logo")
+
+    @property
+    def logourl(self) -> str:
+        return self._rawGet("logourl")
+
+    @property
+    def logodark(self) -> str:
+        return self._rawGet("logodark")
+
+    @property
+    def logodarkurl(self) -> str:
+        return self._rawGet("logodarkurl")
+
+    @property
+    def textlesslogourl(self) -> str:
+        return self._rawGet("textlesslogourl")
+
+    @property
+    def textlesslogodarkurl(self) -> str:
+        return self._rawGet("textlesslogodarkurl")
+
+    @property
+    def status(self) -> str:
+        return self._rawGet("status")
+
+    @property
+    def createdate(self) -> Optional[date]:
+        return LpdbBaseData._parseIsoDate(self._rawGet("createdate"))
+
+    @property
+    def disbanddate(self) -> Optional[date]:
+        return LpdbBaseData._parseIsoDate(self._rawGet("disbanddate"))
+
+    @property
+    def earnings(self) -> int | float:
+        return self._rawGet("earnings")
+
+    @property
+    def earningsbyyear(self) -> dict[str, int | float]:
+        return self._rawGet("earningsbyyear")
+
+    @property
+    def template(self) -> str:
+        return self._rawGet("template")
+
+    @property
+    def links(self) -> dict:
+        return self._rawGet("links")
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
