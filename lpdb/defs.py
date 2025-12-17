@@ -903,6 +903,100 @@ class SquadPlayer(LpdbBaseResponseData):
         return self._rawGet("inactivedateref")
 
 
+class StandingsEntry(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def parent(self) -> str:
+        return self._rawGet("parent")
+
+    @property
+    def standingsindex(self) -> int:
+        return self._rawGet("standingsindex")
+
+    @property
+    def opponenttype(self) -> OpponentType:
+        return OpponentType(self._rawGet("opponenttype"))
+
+    @property
+    def opponentname(self) -> str:
+        return self._rawGet("opponentname")
+
+    @property
+    def opponenttemplate(self) -> str:
+        return self._rawGet("opponenttemplate")
+
+    @property
+    def opponentplayers(self) -> dict:
+        return self._rawGet("opponentplayers")
+
+    @property
+    def placement(self) -> int:
+        return self._rawGet("placement")
+
+    @property
+    def definitestatus(self) -> str:
+        return self._rawGet("definitestatus")
+
+    @property
+    def currentstatus(self) -> str:
+        return self._rawGet("currentstatus")
+
+    @property
+    def placementchange(self) -> int:
+        return self._rawGet("placementchange")
+
+    @property
+    def scoreboard(self) -> dict:
+        return self._rawGet("scoreboard")
+
+    @property
+    def roundindex(self) -> int:
+        return self._rawGet("roundindex")
+
+    @property
+    def slotindex(self) -> dict:
+        return self._rawGet("slotindex")
+
+
+class StandingsTable(LpdbBaseResponseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def parent(self) -> str:
+        return self._rawGet("parent")
+
+    @property
+    def standingsindex(self) -> int:
+        return self._rawGet("standingsindex")
+
+    @property
+    def title(self) -> str:
+        return self._rawGet("title")
+
+    @property
+    def tournament(self) -> str:
+        return self._rawGet("tournament")
+
+    @property
+    def section(self) -> dict:
+        return self._rawGet("section")
+
+    @property
+    def type(self) -> int:
+        return self._rawGet("type")
+
+    @property
+    def matches(self) -> list[str]:
+        return self._rawGet("matches")
+
+    @property
+    def config(self) -> dict:
+        return self._rawGet("config")
+
+
 def x() -> Broadcasters:
     b = Broadcasters()
     pass
