@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+from datetime import date
 from http import HTTPStatus
 from types import TracebackType
 from typing import Any, Final, Literal, NotRequired, Optional, Required, Type, TypedDict
@@ -39,6 +40,23 @@ class AbstractLpdbSession(ABC):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        pass
+
+    @abstractmethod
+    def get_team_template(
+        self,
+        wiki: str,
+        template: str,
+        date: Optional[date] = None,
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        pass
+
+    @abstractmethod
+    def get_team_template_list(
+        self,
+        wiki: str,
+        pagination: int = 1,
     ) -> tuple[HTTPStatus, LpdbResponse]:
         pass
 
@@ -115,6 +133,34 @@ class LpdbSession(AbstractLpdbSession):
         lpdb_status = HTTPStatus(lpdb_response.status_code)
         return (lpdb_status, lpdb_response.json())
 
+    def get_team_template(
+        self, wiki: str, template: str, date: Optional[date] = None
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        params = {
+            "wiki": wiki,
+            "template": template,
+        }
+        if date != None:
+            params["date"] = date.isoformat()
+        lpdb_response = requests.get(
+            AbstractLpdbSession.BASE_URL + "teamtemplate",
+            headers=self._get_header(),
+            params=params,
+        )
+        lpdb_status = HTTPStatus(lpdb_response.status_code)
+        return (lpdb_status, lpdb_response.json())
+
+    def get_team_template_list(
+        self, wiki: str, pagination: int = 1
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        lpdb_response = requests.get(
+            AbstractLpdbSession.BASE_URL + "teamtemplatelist",
+            headers=self._get_header(),
+            params={"wiki": wiki, "pagination": pagination},
+        )
+        lpdb_status = HTTPStatus(lpdb_response.status_code)
+        return (lpdb_status, lpdb_response.json())
+
 
 class AsyncLpdbSession(AbstractLpdbSession):
     __session: aiohttp.ClientSession
@@ -179,6 +225,34 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 order=order,
                 groupby=groupby,
             ),
+        ) as response:
+            lpdb_status = HTTPStatus(response.status)
+            lpdb_response = await response.json()
+            return (lpdb_status, lpdb_response)
+
+    async def get_team_template(
+        self, wiki: str, template: str, date: Optional[date] = None
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        params = {
+            "wiki": wiki,
+            "template": template,
+        }
+        if date != None:
+            params["date"] = date.isoformat()
+        async with self.__session.get(
+            "teamtemplate", headers=self._get_header(), params=params
+        ) as response:
+            lpdb_status = HTTPStatus(response.status)
+            lpdb_response = await response.json()
+            return (lpdb_status, lpdb_response)
+
+    async def get_team_template_list(
+        self, wiki: str, pagination: int = 1
+    ) -> tuple[HTTPStatus, LpdbResponse]:
+        async with self.__session.get(
+            "teamtemplatelist",
+            headers=self._get_header(),
+            params={"wiki": wiki, "pagination": pagination},
         ) as response:
             lpdb_status = HTTPStatus(response.status)
             lpdb_response = await response.json()
