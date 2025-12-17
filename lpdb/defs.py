@@ -19,7 +19,7 @@ class LpdbBaseData:
     Base class of all LPDB data
     """
 
-    _raw: dict[str, Any]
+    __raw: dict[str, Any]
     """
     Raw data from LPDB in Python dict form
     """
@@ -28,7 +28,7 @@ class LpdbBaseData:
         self._raw = raw
 
     def _rawGet(self, key: str):
-        value = self._raw.get(key)
+        value = self.__raw.get(key)
         if value == "":
             return None
         return value
@@ -38,7 +38,7 @@ class LpdbBaseData:
         return self._rawGet("extradata")
 
     def __repr__(self):
-        return repr(self._raw)
+        return repr(self.__raw)
 
     @staticmethod
     def _parseIsoDate(date_str: str) -> Optional[date]:
@@ -1268,7 +1268,3 @@ class Transfer(LpdbBaseResponseData):
     def wholeteam(self) -> bool:
         return bool(self._rawGet("wholeteam"))
 
-
-def x() -> Broadcasters:
-    b = Broadcasters()
-    pass
