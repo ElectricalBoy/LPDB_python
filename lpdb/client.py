@@ -167,7 +167,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     def __init__(self, api_key):
         super().__init__(api_key)
-        self.__session = aiohttp.ClientSession("https://api.liquipedia.net/api/v3/")
+        self.__session = aiohttp.ClientSession(AbstractLpdbSession.BASE_URL)
 
     def __enter__(self) -> None:
         raise TypeError("Use async with instead")
