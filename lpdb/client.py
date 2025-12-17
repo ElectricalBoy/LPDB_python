@@ -3,6 +3,7 @@ from datetime import date
 from http import HTTPStatus
 from types import TracebackType
 from typing import Any, Final, Literal, NotRequired, Optional, Required, Type, TypedDict
+import re
 
 import aiohttp
 import requests
@@ -20,7 +21,7 @@ class AbstractLpdbSession(ABC):
     __api_key: str
 
     def __init__(self, api_key: str):
-        self.__api_key = api_key
+        self.__api_key = re.sub(r"^ApiKey ", "", api_key)
 
     def _get_header(self) -> dict[str, str]:
         return {"authorization": f"Apikey {self.__api_key}"}
