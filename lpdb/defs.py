@@ -33,10 +33,6 @@ class LpdbBaseData:
             return None
         return value
 
-    @property
-    def extradata(self) -> Optional[dict[str, Any]]:
-        return self._rawGet("extradata")
-
     def __repr__(self):
         return repr(self.__raw)
 
@@ -501,12 +497,14 @@ class MatchGame(LpdbBaseData):
     def length(self) -> str:
         return self._rawGet("length")
 
+    @property
+    def extradata(self) -> Optional[dict[str, Any]]:
+        return self._rawGet("extradata")
+
 
 class MatchOpponent(LpdbBaseData):
-    _raw: dict[str, Any]
-
-    def __init__(self, raw: dict[str, Any]):
-        self._raw = raw
+    def __init__(self, raw):
+        super().__init__(raw)
 
     @property
     def id(self) -> int:
@@ -551,6 +549,10 @@ class MatchOpponent(LpdbBaseData):
     @property
     def teamtemplate(self) -> dict:
         return self._rawGet("teamtemplate")
+
+    @property
+    def extradata(self) -> Optional[dict[str, Any]]:
+        return self._rawGet("extradata")
 
 
 class Placement(LpdbBaseResponseData):
@@ -1324,4 +1326,3 @@ class TeamTemplate(LpdbBaseData):
     @property
     def legacyimagedarkurl(self) -> dict:
         return self._rawGet("legacyimagedarkurl")
-
