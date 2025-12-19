@@ -25,7 +25,7 @@ class LpdbBaseData:
     """
 
     def __init__(self, raw: dict[str, Any]):
-        self._raw = raw
+        self.__raw = raw
 
     def _rawGet(self, key: str):
         value = self.__raw.get(key)
