@@ -321,10 +321,10 @@ class Match(LpdbBaseResponseData):
         return self._rawGet("bestof")
 
     @property
-    def date(self) -> Optional[date | datetime]:
-        if not self.dateexact:
-            return _parseIsoDate(self._rawGet("date"))
+    def date(self) -> Optional[datetime]:
         parsed = _parseIsoDateTime(self._rawGet("date"))
+        if not self.dateexact:
+            return parsed
         return parsed.astimezone(tz=self.timezone)
 
     @property
