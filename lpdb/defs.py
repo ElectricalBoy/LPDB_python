@@ -5,12 +5,14 @@ from enum import StrEnum
 from functools import lru_cache
 from typing import Any, Optional
 
+
 @lru_cache
 def _parseIsoDate(date_str: str) -> Optional[date]:
     try:
         return date.fromisoformat(date_str)
     except ValueError:
         return None
+
 
 @lru_cache
 def _parseIsoDateTime(datetime_str: str) -> Optional[datetime]:
