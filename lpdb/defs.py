@@ -1268,3 +1268,60 @@ class Transfer(LpdbBaseResponseData):
     def wholeteam(self) -> bool:
         return bool(self._rawGet("wholeteam"))
 
+
+class TeamTemplate(LpdbBaseData):
+    def __init__(self, raw):
+        super().__init__(raw)
+
+    @property
+    def template(self) -> str:
+        return self._rawGet("template")
+
+    @property
+    def page(self) -> str:
+        return self._rawGet("page")
+
+    @property
+    def name(self) -> str:
+        return self._rawGet("name")
+
+    @property
+    def shortname(self) -> str:
+        return self._rawGet("shortname")
+
+    @property
+    def bracketname(self) -> str:
+        return self._rawGet("bracketname")
+
+    @property
+    def image(self) -> str:
+        return self._rawGet("image")
+
+    @property
+    def imageurl(self) -> str:
+        return self._rawGet("imageurl")
+
+    @property
+    def imagedark(self) -> str:
+        return self._rawGet("imagedark")
+
+    @property
+    def imagedarkurl(self) -> dict:
+        return self._rawGet("imagedarkurl")
+
+    @property
+    def legacyimage(self) -> str:
+        return self._rawGet("legacyimage")
+
+    @property
+    def legacyimageurl(self) -> str:
+        return self._rawGet("legacyimageurl")
+
+    @property
+    def legacyimagedark(self) -> str:
+        return self._rawGet("legacyimagedark")
+
+    @property
+    def legacyimagedarkurl(self) -> dict:
+        return self._rawGet("legacyimagedarkurl")
+
