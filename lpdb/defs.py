@@ -547,8 +547,10 @@ class MatchOpponent(LpdbBaseData):
         return self._rawGet("extradata")
 
     @property
-    def teamtemplate(self) -> dict:
-        return self._rawGet("teamtemplate")
+    def teamtemplate(self) -> Optional["TeamTemplate"]:
+        if self.template == None:
+            return None
+        return TeamTemplate(self._rawGet("teamtemplate"))
 
     @property
     def extradata(self) -> Optional[dict[str, Any]]:
