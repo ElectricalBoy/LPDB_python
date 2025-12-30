@@ -32,7 +32,7 @@ class AbstractLpdbSession(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_response(
+    def make_request(
         self,
         lpdb_datatype,
         wiki: str | list[str],
@@ -109,7 +109,7 @@ class LpdbSession(AbstractLpdbSession):
         wikis = response.json()
         return set(wikis["allwikis"].keys())
 
-    def get_response(
+    def make_request(
         self,
         lpdb_datatype,
         wiki: str | list[str],
@@ -205,7 +205,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 wikis = await response.json()
                 return set(wikis["allwikis"].keys())
 
-    async def get_response(
+    async def make_request(
         self,
         lpdb_datatype,
         wiki: str | list[str],
