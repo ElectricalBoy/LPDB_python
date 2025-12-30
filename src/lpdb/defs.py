@@ -346,7 +346,9 @@ class Match(LpdbBaseResponseData):
         parsed = _parseIsoDateTime(self._rawGet("date"))
         if not self.dateexact:
             return parsed
-        return parsed.astimezone(tz=self.timezone)
+        elif self.timezone != None:
+            return parsed.astimezone(tz=self.timezone)
+        return parsed
 
     @property
     def dateexact(self) -> bool:
