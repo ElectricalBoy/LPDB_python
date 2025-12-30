@@ -5,7 +5,7 @@ from typing import Literal, Optional, Type
 
 import aiohttp
 
-from lpdb.session import AbstractLpdbSession, LpdbResponse
+from ..session import AbstractLpdbSession, LpdbResponse
 
 __all__ = ["AsyncLpdbSession"]
 
