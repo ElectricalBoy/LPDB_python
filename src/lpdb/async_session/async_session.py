@@ -9,6 +9,7 @@ from ..session import AbstractLpdbSession, LpdbResponse
 
 __all__ = ["AsyncLpdbSession"]
 
+
 class AsyncLpdbSession(AbstractLpdbSession):
     __session: aiohttp.ClientSession
 
