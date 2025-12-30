@@ -5,6 +5,27 @@ from enum import StrEnum
 from functools import lru_cache
 from typing import Any, Optional
 
+__all__ = [
+    "OpponentType",
+    "Broadcasters",
+    "Company",
+    "Datapoint",
+    "ExternalMediaLink",
+    "Match",
+    "MatchGame",
+    "MatchOpponent",
+    "Placement",
+    "Player",
+    "Series",
+    "SquadPlayer",
+    "StandingsEntry",
+    "StandingsTable",
+    "Team",
+    "Tournament",
+    "Transfer",
+    "TeamTemplate",
+]
+
 
 @lru_cache
 def _parseIsoDate(date_str: str) -> Optional[date]:
