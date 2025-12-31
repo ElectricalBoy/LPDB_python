@@ -349,6 +349,9 @@ class Match(LpdbBaseResponseData):
 
     @property
     def timezone(self) -> Optional[timezone]:
+        """
+        Timezone information stored in this match.
+        """
         if not self.dateexact:
             return None
         offset: str = self.extradata.get("timezoneoffset")
