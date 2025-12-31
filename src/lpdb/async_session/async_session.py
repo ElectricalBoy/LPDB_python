@@ -11,6 +11,10 @@ __all__ = ["AsyncLpdbSession"]
 
 
 class AsyncLpdbSession(AbstractLpdbSession):
+    """
+    Asynchronous implementation of a LPDB session
+    """
+
     __session: aiohttp.ClientSession
 
     def __init__(self, api_key):

@@ -48,7 +48,7 @@ class LpdbWarning(Warning):
 
 class AbstractLpdbSession(ABC):
     """
-    Abstract implementation of a LPDB session
+    An abstract LPDB session
     """
 
     BASE_URL: Final[str] = "https://api.liquipedia.net/api/v3/"
@@ -186,6 +186,9 @@ class AbstractLpdbSession(ABC):
 
 
 class LpdbSession(AbstractLpdbSession):
+    """
+    Implementation of a LPDB session
+    """
 
     @staticmethod
     def get_wikis() -> set[str]:
