@@ -7,6 +7,8 @@ import warnings
 
 import requests
 
+from .defs import TeamTemplate
+
 __all__ = ["LpdbError", "LpdbWarning", "LpdbSession"]
 
 
@@ -131,7 +133,7 @@ class AbstractLpdbSession(ABC):
         wiki: str,
         template: str,
         date: Optional[date] = None,
-    ) -> Optional[dict[str, Any]]:
+    ) -> Optional[TeamTemplate]:
         """
         Queries a team template from LPDB.
 
@@ -150,7 +152,7 @@ class AbstractLpdbSession(ABC):
         self,
         wiki: str,
         pagination: int = 1,
-    ) -> list[dict[str, Any]]:
+    ) -> list[TeamTemplate]:
         """
         Queries a list of team template from LPDB.
 
@@ -263,7 +265,7 @@ class LpdbSession(AbstractLpdbSession):
 
     def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> Optional[dict[str, Any]]:
+    ) -> Optional[TeamTemplate]:
         params = {
             "wiki": wiki,
             "template": template,
@@ -279,7 +281,7 @@ class LpdbSession(AbstractLpdbSession):
 
     def get_team_template_list(
         self, wiki: str, pagination: int = 1
-    ) -> list[dict[str, Any]]:
+    ) -> list[TeamTemplate]:
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + "teamtemplatelist",
             headers=self._get_header(),
