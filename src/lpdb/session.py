@@ -133,7 +133,7 @@ class AbstractLpdbSession(ABC):
         pass
 
     @staticmethod
-    def parse_params(
+    def _parse_params(
         wiki: str | list[str],
         limit: int = 20,
         offset: int = 0,
@@ -166,7 +166,7 @@ class AbstractLpdbSession(ABC):
         return parameters
 
     @staticmethod
-    def parse_results(response: LpdbResponse) -> list[dict[str, Any]]:
+    def _parse_results(response: LpdbResponse) -> list[dict[str, Any]]:
         result = response["result"]
         lpdb_warnings = response.get("warning")
         lpdb_errors = response.get("error")
@@ -195,7 +195,7 @@ class LpdbSession(AbstractLpdbSession):
     @staticmethod
     def __handle_response(response: requests.Response) -> list[dict[str, Any]]:
         try:
-            return AbstractLpdbSession.parse_results(response.json())
+            return AbstractLpdbSession._parse_results(response.json())
         except Exception as e:
             if isinstance(e, LpdbError):
                 raise e
@@ -216,7 +216,7 @@ class LpdbSession(AbstractLpdbSession):
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + lpdb_datatype,
             headers=self._get_header(),
-            params=AbstractLpdbSession.parse_params(
+            params=AbstractLpdbSession._parse_params(
                 wiki=wiki,
                 limit=limit,
                 offset=offset,

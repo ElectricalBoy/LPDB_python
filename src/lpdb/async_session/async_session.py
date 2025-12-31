@@ -55,7 +55,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         response: aiohttp.ClientResponse,
     ) -> list[dict[str, Any]]:
         try:
-            return AbstractLpdbSession.parse_results(await response.json())
+            return AbstractLpdbSession._parse_results(await response.json())
         except Exception as e:
             if isinstance(e, LpdbError):
                 raise e
@@ -76,7 +76,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         async with self.__session.get(
             lpdb_datatype,
             headers=self._get_header(),
-            params=AbstractLpdbSession.parse_params(
+            params=AbstractLpdbSession._parse_params(
                 wiki=wiki,
                 limit=limit,
                 offset=offset,
