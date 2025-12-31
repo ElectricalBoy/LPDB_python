@@ -61,6 +61,7 @@ class AbstractLpdbSession(ABC):
     def _get_header(self) -> dict[str, str]:
         return {"authorization": f"Apikey {self.__api_key}", "accept-encoding": "gzip"}
 
+    @abstractmethod
     @staticmethod
     def get_wikis() -> set[str]:
         """
@@ -68,7 +69,7 @@ class AbstractLpdbSession(ABC):
 
         :return: set of all available wiki names
         """
-        raise NotImplementedError()
+        pass
 
     @abstractmethod
     def make_request(
