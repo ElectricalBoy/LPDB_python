@@ -8,6 +8,23 @@ dynamic = ["version"]
 requires-python = ">= 3.12"
 readme = "README.md"
 license = "MIT"
+dependencies = [
+  "requests>=2.32.5"
+]
+
+[project.optional-dependencies]
+async = [
+    "aiohttp>=3.13.2"
+]
+
+[dependency-groups]
+test = [
+    "pytest",
+    "pytest-asyncio",
+]
+lint = [
+    "black",
+]
 
 [tool.pytest.ini_options]
 pythonpath = [
