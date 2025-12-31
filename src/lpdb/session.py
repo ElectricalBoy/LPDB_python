@@ -12,20 +12,45 @@ __all__ = ["LpdbResponse", "LpdbSession"]
 
 
 class LpdbResponse(TypedDict):
+    """
+    Typed representation of a proper LPDB response.
+    """
+
     result: Required[list[dict[str, Any]]]
+    """
+    The result of the query
+    """
     error: NotRequired[list[str]]
+    """
+    Errors raised by LPDB
+    """
     warning: NotRequired[list[str]]
+    """
+    Non-fatal issues with the LPDB request
+    """
 
 
 class LpdbError(Exception):
+    """
+    Raised when the LPDB request created a fatal issue.
+    """
+
     pass
 
 
 class LpdbWarning(Warning):
+    """
+    Warnings about LPDB response.
+    """
+
     pass
 
 
 class AbstractLpdbSession(ABC):
+    """
+    Abstract implementation of a LPDB session
+    """
+
     BASE_URL: Final[str] = "https://api.liquipedia.net/api/v3/"
 
     __api_key: str
@@ -52,6 +77,21 @@ class AbstractLpdbSession(ABC):
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
     ) -> tuple[HTTPStatus, LpdbResponse]:
+        """
+        Creates an LPDB query request.
+
+        :param lpdb_datatype: the data type to query
+        :param wiki: the wiki(s) to query
+        :param limit: the amount of results wanted
+        :param offset: the offset, the first `offset` results from the query will be dropped
+        :param conditions: the conditions for the query
+        :param order: the order of results to be sorted in; each ordering rule is specified as a `(datapoint, direction)` tuple
+        :param groupby: the way that the query results are grouped; each grouping rule is specified as a `(datapoint, direction)` tuple
+
+        :returns: result of the query
+
+        :raises LpdbError: if something went wrong with the request
+        """
         pass
 
     @abstractmethod
@@ -61,6 +101,17 @@ class AbstractLpdbSession(ABC):
         template: str,
         date: Optional[date] = None,
     ) -> tuple[HTTPStatus, LpdbResponse]:
+        """
+        Queries a team template from LPDB.
+
+        :param wiki: the wiki to query
+        :param template: the name of team template
+        :param date: the contextual date for the requested team template
+
+        :returns: the requested team template
+
+        :raises LpdbError: if something went wrong with the request
+        """
         pass
 
     @abstractmethod
@@ -69,6 +120,16 @@ class AbstractLpdbSession(ABC):
         wiki: str,
         pagination: int = 1,
     ) -> tuple[HTTPStatus, LpdbResponse]:
+        """
+        Queries a list of team template from LPDB.
+
+        :param wiki: the wiki to query
+        :param pagination: used for pagination
+
+        :returns: team templates
+
+        :raises LpdbError: if something went wrong with the request
+        """
         pass
 
     @staticmethod
