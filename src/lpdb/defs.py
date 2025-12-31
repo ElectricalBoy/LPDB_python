@@ -3,7 +3,9 @@ import json
 from datetime import date, datetime, timedelta, timezone, UTC
 from enum import StrEnum
 from functools import lru_cache
-from typing import Any, Optional
+from typing import Any, Optional, Union
+
+type Number = Union[int, float]
 
 __all__ = [
     "OpponentType",
@@ -461,7 +463,7 @@ class MatchGame(LpdbBaseData):
         return self._rawGet("match2gameid")
 
     @property
-    def scores(self) -> list[int | float]:
+    def scores(self) -> list[Number]:
         return self._rawGet("scores")
 
     @property
@@ -547,7 +549,7 @@ class MatchOpponent(LpdbBaseData):
         return self._rawGet("icon")
 
     @property
-    def score(self) -> int | float:
+    def score(self) -> Number:
         return self._rawGet("score")
 
     @property
@@ -608,11 +610,11 @@ class Placement(LpdbBaseResponseData):
         return _parseIsoDateTime(self._rawGet("date"))
 
     @property
-    def prizemoney(self) -> int | float:
+    def prizemoney(self) -> Number:
         return self._rawGet("placement")
 
     @property
-    def weight(self) -> int | float:
+    def weight(self) -> Number:
         return self._rawGet("weight")
 
     @property
@@ -751,11 +753,11 @@ class Player(LpdbBaseResponseData):
         return self._rawGet("status")
 
     @property
-    def earnings(self) -> int | float:
+    def earnings(self) -> Number:
         return self._rawGet("earnings")
 
     @property
-    def earningsbyyear(self) -> dict[str, int | float]:
+    def earningsbyyear(self) -> dict[str, Number]:
         return self._rawGet("earningsbyyear")
 
 
@@ -818,7 +820,7 @@ class Series(LpdbBaseResponseData):
         return self._rawGet("locations")
 
     @property
-    def prizepool(self) -> int | float:
+    def prizepool(self) -> Number:
         return self._rawGet("prizepool")
 
     @property
@@ -1062,11 +1064,11 @@ class Team(LpdbBaseResponseData):
         return _parseIsoDate(self._rawGet("disbanddate"))
 
     @property
-    def earnings(self) -> int | float:
+    def earnings(self) -> Number:
         return self._rawGet("earnings")
 
     @property
-    def earningsbyyear(self) -> dict[str, int | float]:
+    def earningsbyyear(self) -> dict[str, Number]:
         return self._rawGet("earningsbyyear")
 
     @property
@@ -1189,7 +1191,7 @@ class Tournament(LpdbBaseResponseData):
         return self._rawGet("locations")
 
     @property
-    def prizepool(self) -> int | float:
+    def prizepool(self) -> Number:
         return self._rawGet("prizepool")
 
     @property
