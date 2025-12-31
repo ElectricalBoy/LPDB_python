@@ -108,7 +108,7 @@ class AbstractLpdbSession(ABC):
         :param template: the name of team template
         :param date: the contextual date for the requested team template
 
-        :returns: the requested team template
+        :returns: the requested team template, may return `None` if the requested team template does not exist
 
         :raises LpdbError: if something went wrong with the request
         """
@@ -192,6 +192,16 @@ class LpdbSession(AbstractLpdbSession):
         wikis = response.json()
         return set(wikis["allwikis"].keys())
 
+    @staticmethod
+    def __handle_response(response: requests.Response) -> list[dict[str, Any]]:
+        try:
+            return AbstractLpdbSession.parse_results(response.json())
+        except Exception as e:
+            if isinstance(e, LpdbError):
+                raise e
+            status = HTTPStatus(response.status_code)
+            raise LpdbError(status.description) from e
+
     def make_request(
         self,
         lpdb_datatype,
@@ -202,7 +212,7 @@ class LpdbSession(AbstractLpdbSession):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
+    ) -> list[dict[str, Any]]:
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + lpdb_datatype,
             headers=self._get_header(),
@@ -216,12 +226,11 @@ class LpdbSession(AbstractLpdbSession):
                 groupby=groupby,
             ),
         )
-        lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json()))
+        return LpdbSession.__handle_response(lpdb_response)
 
     def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> tuple[HTTPStatus, dict[str, Any]]:
+    ) -> dict[str, Any]:
         params = {
             "wiki": wiki,
             "template": template,
@@ -233,16 +242,14 @@ class LpdbSession(AbstractLpdbSession):
             headers=self._get_header(),
             params=params,
         )
-        lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json())[0])
+        return LpdbSession.__handle_response(lpdb_response)[0]
 
     def get_team_template_list(
         self, wiki: str, pagination: int = 1
-    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
+    ) -> list[dict[str, Any]]:
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + "teamtemplatelist",
             headers=self._get_header(),
             params={"wiki": wiki, "pagination": pagination},
         )
-        lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json()))
+        return LpdbSession.__handle_response(lpdb_response)

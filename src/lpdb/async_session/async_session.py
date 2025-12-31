@@ -5,7 +5,7 @@ from typing import Any, Literal, Optional, Type
 
 import aiohttp
 
-from ..session import AbstractLpdbSession, LpdbResponse
+from ..session import AbstractLpdbSession, LpdbError
 
 __all__ = ["AsyncLpdbSession"]
 
@@ -50,6 +50,16 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 wikis = await response.json()
                 return set(wikis["allwikis"].keys())
 
+    @staticmethod
+    async def __handle_response(response: aiohttp.ClientResponse) -> list[dict[str, Any]]:
+        try:
+            return AbstractLpdbSession.parse_results(await response.json())
+        except Exception as e:
+            if isinstance(e, LpdbError):
+                raise e
+            status = HTTPStatus(response.status)
+            raise LpdbError(status.description) from e
+
     async def make_request(
         self,
         lpdb_datatype,
@@ -60,7 +70,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
+    ) -> list[dict[str, Any]]:
         async with self.__session.get(
             lpdb_datatype,
             headers=self._get_header(),
@@ -74,13 +84,11 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 groupby=groupby,
             ),
         ) as response:
-            lpdb_status = HTTPStatus(response.status)
-            lpdb_response = await response.json()
-            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response))
+            return await AsyncLpdbSession.__handle_response(response)
 
     async def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> tuple[HTTPStatus, dict[str, Any]]:
+    ) -> dict[str, Any]:
         params = {
             "wiki": wiki,
             "template": template,
@@ -90,18 +98,15 @@ class AsyncLpdbSession(AbstractLpdbSession):
         async with self.__session.get(
             "teamtemplate", headers=self._get_header(), params=params
         ) as response:
-            lpdb_status = HTTPStatus(response.status)
-            lpdb_response = await response.json()
-            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response)[0])
+            parsed_response = await AsyncLpdbSession.__handle_response(response)
+            return parsed_response[0]
 
     async def get_team_template_list(
         self, wiki: str, pagination: int = 1
-    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
+    ) -> list[dict[str, Any]]:
         async with self.__session.get(
             "teamtemplatelist",
             headers=self._get_header(),
             params={"wiki": wiki, "pagination": pagination},
         ) as response:
-            lpdb_status = HTTPStatus(response.status)
-            lpdb_response = await response.json()
-            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response))
+            return await AsyncLpdbSession.__handle_response(response)
