@@ -127,7 +127,7 @@ class AbstractLpdbSession(ABC):
     @abstractmethod
     def make_request(
         self,
-        lpdb_datatype,
+        lpdb_datatype: LpdbDataType,
         wiki: str | list[str],
         limit: int = 20,
         offset: int = 0,
@@ -155,7 +155,7 @@ class AbstractLpdbSession(ABC):
 
     def make_count_request(
         self,
-        lpdb_datatype,
+        lpdb_datatype: LpdbDataType,
         wiki: str,
         conditions: Optional[str] = None,
     ) -> int:
@@ -288,7 +288,7 @@ class LpdbSession(AbstractLpdbSession):
     @override
     def make_request(
         self,
-        lpdb_datatype: str,
+        lpdb_datatype: LpdbDataType,
         wiki: str | list[str],
         limit: int = 20,
         offset: int = 0,

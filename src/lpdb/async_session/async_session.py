@@ -5,7 +5,7 @@ from typing import Any, Literal, Optional, override
 
 import aiohttp
 
-from ..session import AbstractLpdbSession, LpdbError
+from ..session import AbstractLpdbSession, LpdbDataType, LpdbError
 from ..defs import TeamTemplate
 
 __all__ = ["AsyncLpdbSession"]
@@ -70,7 +70,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
     @override
     async def make_request(
         self,
-        lpdb_datatype,
+        lpdb_datatype: LpdbDataType,
         wiki: str | list[str],
         limit: int = 20,
         offset: int = 0,
