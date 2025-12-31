@@ -63,6 +63,11 @@ class AbstractLpdbSession(ABC):
 
     @staticmethod
     def get_wikis() -> set[str]:
+        """
+        Fetches the list of all available wikis.
+
+        :return: set of all available wiki names
+        """
         raise NotImplementedError()
 
     @abstractmethod
@@ -182,7 +187,6 @@ class AbstractLpdbSession(ABC):
 class LpdbSession(AbstractLpdbSession):
 
     @staticmethod
-    @cache
     def get_wikis() -> set[str]:
         response = requests.get(
             "https://liquipedia.net/api.php",
