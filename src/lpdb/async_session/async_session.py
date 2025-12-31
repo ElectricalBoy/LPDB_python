@@ -64,7 +64,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
             if isinstance(e, LpdbError):
                 raise e
             status = HTTPStatus(response.status)
-            raise LpdbError(status.description) from e
+            raise LpdbError(f"HTTP {status}: {status.name}") from e
 
     async def make_request(
         self,

@@ -234,7 +234,7 @@ class LpdbSession(AbstractLpdbSession):
             if isinstance(e, LpdbError):
                 raise e
             status = HTTPStatus(response.status_code)
-            raise LpdbError(status.description) from e
+            raise LpdbError(f"HTTP {status}: {status.name}") from e
 
     def make_request(
         self,
