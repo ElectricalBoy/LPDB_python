@@ -12,6 +12,11 @@ dependencies = [
   "requests>=2.32.5"
 ]
 
+[project.urls]
+Homepage = "https://github.com/ElectricalBoy/LPDB_python"
+Changelog = "https://github.com/ElectricalBoy/LPDB_python/releases"
+Issues = "https://github.com/ElectricalBoy/LPDB_python/issues"
+
 [project.optional-dependencies]
 async = [
     "aiohttp>=3.13.2"
