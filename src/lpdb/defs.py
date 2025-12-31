@@ -44,6 +44,10 @@ def _parseIsoDateTime(datetime_str: str) -> Optional[datetime]:
 
 
 class OpponentType(StrEnum):
+    """
+    Enum that defines all valid opponent types in LPDB.
+    """
+
     team = "team"
     solo = "solo"
     duo = "duo"
@@ -66,6 +70,13 @@ class LpdbBaseData:
         self.__raw = raw.copy()
 
     def _rawGet(self, key: str):
+        """
+        Gets the value from LPDB data.
+
+        :param key: the key
+
+        :return: the value associated with the key, returns `None` if the key does not exist or the value is an empty string
+        """
         value = self.__raw.get(key)
         if value == "":
             return None
