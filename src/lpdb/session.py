@@ -76,7 +76,7 @@ class AbstractLpdbSession(ABC):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
         """
         Creates an LPDB query request.
 
@@ -100,7 +100,7 @@ class AbstractLpdbSession(ABC):
         wiki: str,
         template: str,
         date: Optional[date] = None,
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, dict[str, Any]]:
         """
         Queries a team template from LPDB.
 
@@ -119,7 +119,7 @@ class AbstractLpdbSession(ABC):
         self,
         wiki: str,
         pagination: int = 1,
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
         """
         Queries a list of team template from LPDB.
 
@@ -202,7 +202,7 @@ class LpdbSession(AbstractLpdbSession):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + lpdb_datatype,
             headers=self._get_header(),
@@ -221,7 +221,7 @@ class LpdbSession(AbstractLpdbSession):
 
     def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, dict[str, Any]]:
         params = {
             "wiki": wiki,
             "template": template,
@@ -234,11 +234,11 @@ class LpdbSession(AbstractLpdbSession):
             params=params,
         )
         lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json()))
+        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json())[0])
 
     def get_team_template_list(
         self, wiki: str, pagination: int = 1
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + "teamtemplatelist",
             headers=self._get_header(),

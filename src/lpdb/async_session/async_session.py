@@ -1,7 +1,7 @@
 from datetime import date
 from http import HTTPStatus
 from types import TracebackType
-from typing import Literal, Optional, Type
+from typing import Any, Literal, Optional, Type
 
 import aiohttp
 
@@ -60,7 +60,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
         async with self.__session.get(
             lpdb_datatype,
             headers=self._get_header(),
@@ -80,7 +80,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     async def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, dict[str, Any]]:
         params = {
             "wiki": wiki,
             "template": template,
@@ -92,11 +92,11 @@ class AsyncLpdbSession(AbstractLpdbSession):
         ) as response:
             lpdb_status = HTTPStatus(response.status)
             lpdb_response = await response.json()
-            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response))
+            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response)[0])
 
     async def get_team_template_list(
         self, wiki: str, pagination: int = 1
-    ) -> tuple[HTTPStatus, LpdbResponse]:
+    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
         async with self.__session.get(
             "teamtemplatelist",
             headers=self._get_header(),
