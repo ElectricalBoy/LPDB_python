@@ -6,7 +6,6 @@ from typing import Any, Literal, Optional, override
 import aiohttp
 
 from ..session import AbstractLpdbSession, LpdbDataType, LpdbError
-from ..defs import TeamTemplate
 
 __all__ = ["AsyncLpdbSession"]
 
@@ -111,7 +110,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
     @override
     async def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> Optional[TeamTemplate]:
+    ) -> Optional[dict[str, Any]]:
         params = {
             "wiki": wiki,
             "template": template,
@@ -124,16 +123,15 @@ class AsyncLpdbSession(AbstractLpdbSession):
             parsed_response = await AsyncLpdbSession.__handle_response(response)
             if parsed_response[0] == None:
                 return None
-            return TeamTemplate(parsed_response[0])
+            return parsed_response[0]
 
     @override
     async def get_team_template_list(
         self, wiki: str, pagination: int = 1
-    ) -> list[TeamTemplate]:
+    ) -> list[dict[str, Any]]:
         async with self.__session.get(
             "teamtemplatelist",
             headers=self._get_header(),
             params={"wiki": wiki, "pagination": pagination},
         ) as response:
-            response = await AsyncLpdbSession.__handle_response(response)
-            return [TeamTemplate(data) for data in response]
+            return await AsyncLpdbSession.__handle_response(response)
