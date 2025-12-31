@@ -59,7 +59,7 @@ class AbstractLpdbSession(ABC):
         self.__api_key = re.sub(r"^ApiKey ", "", api_key)
 
     def _get_header(self) -> dict[str, str]:
-        return {"authorization": f"Apikey {self.__api_key}", "accept-encoding": "gzip"}
+        return {"authorization": f"Apikey {self.__api_key}", "accept": "application/json", "accept-encoding": "gzip"}
 
     @staticmethod
     @abstractmethod
@@ -175,8 +175,8 @@ class AbstractLpdbSession(ABC):
             parameters["wiki"] = "|".join(wiki)
         else:
             raise TypeError()
-        parameters["limit"] = min(limit, 1000)
-        parameters["offset"] = offset
+        # parameters["limit"] = min(limit, 1000)
+        # parameters["offset"] = offset
         if conditions != None:
             parameters["conditions"] = conditions
         if query != None:
