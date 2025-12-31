@@ -51,7 +51,9 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 return set(wikis["allwikis"].keys())
 
     @staticmethod
-    async def __handle_response(response: aiohttp.ClientResponse) -> list[dict[str, Any]]:
+    async def __handle_response(
+        response: aiohttp.ClientResponse,
+    ) -> list[dict[str, Any]]:
         try:
             return AbstractLpdbSession.parse_results(await response.json())
         except Exception as e:
