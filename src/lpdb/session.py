@@ -8,7 +8,7 @@ import warnings
 
 import requests
 
-__all__ = ["LpdbResponse", "LpdbSession"]
+__all__ = ["LpdbError", "LpdbWarning", "LpdbSession"]
 
 
 class LpdbResponse(TypedDict):
