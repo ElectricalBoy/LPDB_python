@@ -260,6 +260,7 @@ class LpdbSession(AbstractLpdbSession):
             status = HTTPStatus(response.status_code)
             raise LpdbError(f"HTTP {status}: {status.name}") from e
 
+    @override
     def make_request(
         self,
         lpdb_datatype: str,
@@ -288,6 +289,7 @@ class LpdbSession(AbstractLpdbSession):
         )
         return LpdbSession.__handle_response(lpdb_response)
 
+    @override
     def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
     ) -> Optional[TeamTemplate]:
@@ -304,6 +306,7 @@ class LpdbSession(AbstractLpdbSession):
         )
         return LpdbSession.__handle_response(lpdb_response)[0]
 
+    @override
     def get_team_template_list(
         self, wiki: str, pagination: int = 1
     ) -> list[TeamTemplate]:

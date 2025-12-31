@@ -67,6 +67,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
             status = HTTPStatus(response.status)
             raise LpdbError(f"HTTP {status}: {status.name}") from e
 
+    @override
     async def make_request(
         self,
         lpdb_datatype,
@@ -95,6 +96,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         ) as response:
             return await AsyncLpdbSession.__handle_response(response)
 
+    @override
     async def make_count_request(
         self,
         lpdb_datatype,
@@ -106,6 +108,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         )
         return response[0]["count_objectname"]
 
+    @override
     async def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
     ) -> Optional[TeamTemplate]:
@@ -123,6 +126,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 return None
             return TeamTemplate(parsed_response[0])
 
+    @override
     async def get_team_template_list(
         self, wiki: str, pagination: int = 1
     ) -> list[TeamTemplate]:
