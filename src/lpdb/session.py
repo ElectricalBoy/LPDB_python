@@ -1,7 +1,17 @@
 from abc import abstractmethod, ABC
 from datetime import date
 from http import HTTPStatus
-from typing import Any, Final, Literal, NotRequired, Optional, override, Required, TypedDict, TypeGuard
+from typing import (
+    Any,
+    Final,
+    Literal,
+    NotRequired,
+    Optional,
+    override,
+    Required,
+    TypedDict,
+    TypeGuard,
+)
 import re
 import warnings
 
@@ -11,7 +21,22 @@ from .defs import TeamTemplate
 
 __all__ = ["LpdbError", "LpdbWarning", "LpdbSession"]
 
-type LpdbDataType = Literal["broadcasters", "company", "datapoint", "externalmedialink", "match", "placement", "player", "series", "squadplayer", "standingsentry", "standingstable", "team", "tournament", "transfer"]
+type LpdbDataType = Literal[
+    "broadcasters",
+    "company",
+    "datapoint",
+    "externalmedialink",
+    "match",
+    "placement",
+    "player",
+    "series",
+    "squadplayer",
+    "standingsentry",
+    "standingstable",
+    "team",
+    "tournament",
+    "transfer",
+]
 
 
 class LpdbResponse(TypedDict):
