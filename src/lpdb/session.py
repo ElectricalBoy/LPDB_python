@@ -61,8 +61,8 @@ class AbstractLpdbSession(ABC):
     def _get_header(self) -> dict[str, str]:
         return {"authorization": f"Apikey {self.__api_key}", "accept-encoding": "gzip"}
 
-    @abstractmethod
     @staticmethod
+    @abstractmethod
     def get_wikis() -> set[str]:
         """
         Fetches the list of all available wikis.
