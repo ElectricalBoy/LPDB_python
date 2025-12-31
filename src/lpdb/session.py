@@ -133,6 +133,7 @@ class AbstractLpdbSession(ABC):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        **kwargs
     ) -> list[dict[str, Any]]:
         """
         Creates an LPDB query request.
@@ -220,8 +221,9 @@ class AbstractLpdbSession(ABC):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        **kwargs
     ):
-        parameters = dict()
+        parameters = dict(kwargs)
         if isinstance(wiki, str):
             parameters["wiki"] = wiki
         elif isinstance(wiki, list):
@@ -294,6 +296,7 @@ class LpdbSession(AbstractLpdbSession):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        **kwargs
     ) -> list[dict[str, Any]]:
         if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
             raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
@@ -308,6 +311,7 @@ class LpdbSession(AbstractLpdbSession):
                 query=query,
                 order=order,
                 groupby=groupby,
+                **kwargs
             ),
         )
         return LpdbSession.__handle_response(lpdb_response)

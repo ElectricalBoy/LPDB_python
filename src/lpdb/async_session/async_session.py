@@ -77,6 +77,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        **kwargs
     ) -> list[dict[str, Any]]:
         if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
             raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
@@ -91,6 +92,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
                 query=query,
                 order=order,
                 groupby=groupby,
+                **kwargs
             ),
         ) as response:
             return await AsyncLpdbSession.__handle_response(response)
