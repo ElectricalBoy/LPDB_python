@@ -100,6 +100,26 @@ class AbstractLpdbSession(ABC):
         """
         pass
 
+    def make_count_request(
+        self,
+        lpdb_datatype,
+        wiki: str,
+        conditions: Optional[str] = None,
+    ) -> int:
+        """
+        Queries the number of objects that satisfy the specified condition(s).
+
+        :param lpdb_datatype: the data type to query
+        :param wiki: the wiki to query
+        :param conditions: the conditions for the query
+
+        :returns: number of objects that satisfy the condition(s)
+
+        :raises LpdbError: if something went wrong with the request
+        """
+        response = self.make_request(lpdb_datatype, wiki, conditions=conditions, query=["count::objectname"])
+        return response[0]["count_objectname"]
+
     @abstractmethod
     def get_team_template(
         self,
