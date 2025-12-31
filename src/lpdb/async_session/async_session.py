@@ -1,7 +1,7 @@
 from datetime import date
 from http import HTTPStatus
 from types import TracebackType
-from typing import Any, Literal, Optional, Type
+from typing import Any, Literal, Optional
 
 import aiohttp
 
@@ -26,7 +26,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
+        exc_type: Optional[type[BaseException]],
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
@@ -37,7 +37,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     async def __aexit__(
         self,
-        exc_type: Optional[Type[BaseException]],
+        exc_type: Optional[type[BaseException]],
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
