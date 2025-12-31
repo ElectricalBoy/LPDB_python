@@ -1310,7 +1310,7 @@ class TeamTemplate(LpdbBaseData):
         return self._rawGet("imagedark")
 
     @property
-    def imagedarkurl(self) -> dict:
+    def imagedarkurl(self) -> str:
         return self._rawGet("imagedarkurl")
 
     @property
@@ -1326,5 +1326,5 @@ class TeamTemplate(LpdbBaseData):
         return self._rawGet("legacyimagedark")
 
     @property
-    def legacyimagedarkurl(self) -> dict:
+    def legacyimagedarkurl(self) -> str:
         return self._rawGet("legacyimagedarkurl")
