@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from datetime import date
 from functools import cache
 from http import HTTPStatus
-from typing import Any, Final, Literal, NotRequired, Optional, Required, Type, TypedDict
+from typing import Any, Final, Literal, NotRequired, Optional, Required, TypedDict
 import re
 
 import requests
