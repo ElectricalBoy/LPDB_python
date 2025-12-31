@@ -23,6 +23,10 @@ async = [
 ]
 
 [dependency-groups]
+dev = [
+    {include-group = "test"},
+    {include-group = "lint"}
+]
 test = [
     "pytest",
     "pytest-asyncio",
