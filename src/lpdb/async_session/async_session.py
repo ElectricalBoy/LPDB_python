@@ -76,7 +76,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         ) as response:
             lpdb_status = HTTPStatus(response.status)
             lpdb_response = await response.json()
-            return (lpdb_status, lpdb_response)
+            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response))
 
     async def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
@@ -92,7 +92,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         ) as response:
             lpdb_status = HTTPStatus(response.status)
             lpdb_response = await response.json()
-            return (lpdb_status, lpdb_response)
+            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response))
 
     async def get_team_template_list(
         self, wiki: str, pagination: int = 1
@@ -104,4 +104,4 @@ class AsyncLpdbSession(AbstractLpdbSession):
         ) as response:
             lpdb_status = HTTPStatus(response.status)
             lpdb_response = await response.json()
-            return (lpdb_status, lpdb_response)
+            return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response))

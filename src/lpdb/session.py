@@ -4,6 +4,7 @@ from functools import cache
 from http import HTTPStatus
 from typing import Any, Final, Literal, NotRequired, Optional, Required, TypedDict
 import re
+import warnings
 
 import requests
 
@@ -14,6 +15,14 @@ class LpdbResponse(TypedDict):
     result: Required[list[dict[str, Any]]]
     error: NotRequired[list[str]]
     warning: NotRequired[list[str]]
+
+
+class LpdbError(Exception):
+    pass
+
+
+class LpdbWarning(Warning):
+    pass
 
 
 class AbstractLpdbSession(ABC):
@@ -95,6 +104,19 @@ class AbstractLpdbSession(ABC):
             )
         return parameters
 
+    @staticmethod
+    def parse_results(response: LpdbResponse) -> list[dict[str, Any]]:
+        result = response["result"]
+        lpdb_warnings = response.get("warning")
+        lpdb_errors = response.get("error")
+
+        if lpdb_errors and len(lpdb_errors) != 0:
+            raise LpdbError(re.sub(r"^Error: ?", "", lpdb_errors[0]))
+        if lpdb_warnings and len(lpdb_warnings) != 0:
+            for lpdb_warning in lpdb_warnings:
+                warnings.warn(lpdb_warning, LpdbWarning)
+        return result
+
 
 class LpdbSession(AbstractLpdbSession):
 
@@ -134,7 +156,7 @@ class LpdbSession(AbstractLpdbSession):
             ),
         )
         lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, lpdb_response.json())
+        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json()))
 
     def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
@@ -151,7 +173,7 @@ class LpdbSession(AbstractLpdbSession):
             params=params,
         )
         lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, lpdb_response.json())
+        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json()))
 
     def get_team_template_list(
         self, wiki: str, pagination: int = 1
@@ -162,4 +184,4 @@ class LpdbSession(AbstractLpdbSession):
             params={"wiki": wiki, "pagination": pagination},
         )
         lpdb_status = HTTPStatus(lpdb_response.status_code)
-        return (lpdb_status, lpdb_response.json())
+        return (lpdb_status, AbstractLpdbSession.parse_results(lpdb_response.json()))
