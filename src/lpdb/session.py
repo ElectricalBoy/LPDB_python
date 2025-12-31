@@ -76,7 +76,7 @@ class AbstractLpdbSession(ABC):
         query: Optional[list[str]] = None,
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
+    ) -> list[dict[str, Any]]:
         """
         Creates an LPDB query request.
 
@@ -100,7 +100,7 @@ class AbstractLpdbSession(ABC):
         wiki: str,
         template: str,
         date: Optional[date] = None,
-    ) -> tuple[HTTPStatus, dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """
         Queries a team template from LPDB.
 
@@ -119,7 +119,7 @@ class AbstractLpdbSession(ABC):
         self,
         wiki: str,
         pagination: int = 1,
-    ) -> tuple[HTTPStatus, list[dict[str, Any]]]:
+    ) -> list[dict[str, Any]]:
         """
         Queries a list of team template from LPDB.
 
@@ -230,7 +230,7 @@ class LpdbSession(AbstractLpdbSession):
 
     def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> dict[str, Any]:
+    ) -> Optional[dict[str, Any]]:
         params = {
             "wiki": wiki,
             "template": template,

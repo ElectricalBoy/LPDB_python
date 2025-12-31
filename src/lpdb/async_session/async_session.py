@@ -88,7 +88,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     async def get_team_template(
         self, wiki: str, template: str, date: Optional[date] = None
-    ) -> dict[str, Any]:
+    ) -> Optional[dict[str, Any]]:
         params = {
             "wiki": wiki,
             "template": template,
