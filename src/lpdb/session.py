@@ -182,8 +182,8 @@ class AbstractLpdbSession(ABC):
             parameters["wiki"] = "|".join(wiki)
         else:
             raise TypeError()
-        # parameters["limit"] = min(limit, 1000)
-        # parameters["offset"] = offset
+        parameters["limit"] = min(limit, 1000)
+        parameters["offset"] = offset
         if conditions != None:
             parameters["conditions"] = conditions
         if query != None:
