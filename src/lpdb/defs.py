@@ -80,9 +80,6 @@ class LpdbBaseResponseData(LpdbBaseData):
     Base class of all LPDB response data
     """
 
-    def __init__(self, raw):
-        super().__init__(raw)
-
     @property
     def pageid(self) -> int:
         return self._rawGet("pageid")
@@ -109,9 +106,6 @@ class LpdbBaseResponseData(LpdbBaseData):
 
 
 class Broadcasters(LpdbBaseResponseData):
-
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def id(self) -> str:
@@ -151,9 +145,6 @@ class Broadcasters(LpdbBaseResponseData):
 
 
 class Company(LpdbBaseResponseData):
-
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def name(self) -> str:
@@ -210,9 +201,6 @@ class Company(LpdbBaseResponseData):
 
 class Datapoint(LpdbBaseResponseData):
 
-    def __init__(self, raw):
-        super().__init__(raw)
-
     @property
     def type(self) -> str:
         return self._rawGet("type")
@@ -243,9 +231,6 @@ class Datapoint(LpdbBaseResponseData):
 
 
 class ExternalMediaLink(LpdbBaseResponseData):
-
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def title(self) -> str:
@@ -281,9 +266,6 @@ class ExternalMediaLink(LpdbBaseResponseData):
 
 
 class Match(LpdbBaseResponseData):
-
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def match2id(self) -> str:
@@ -529,8 +511,6 @@ class MatchGame(LpdbBaseData):
 
 
 class MatchOpponent(LpdbBaseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def id(self) -> int:
@@ -584,8 +564,6 @@ class MatchOpponent(LpdbBaseData):
 
 
 class Placement(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def tournament(self) -> str:
@@ -697,8 +675,6 @@ class Placement(LpdbBaseResponseData):
 
 
 class Player(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def id(self) -> str:
@@ -770,8 +746,6 @@ class Player(LpdbBaseResponseData):
 
 
 class Series(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def name(self) -> str:
@@ -863,8 +837,6 @@ class Series(LpdbBaseResponseData):
 
 
 class SquadPlayer(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def id(self) -> str:
@@ -936,8 +908,6 @@ class SquadPlayer(LpdbBaseResponseData):
 
 
 class StandingsEntry(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def parent(self) -> str:
@@ -993,8 +963,6 @@ class StandingsEntry(LpdbBaseResponseData):
 
 
 class StandingsTable(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def parent(self) -> str:
@@ -1030,8 +998,6 @@ class StandingsTable(LpdbBaseResponseData):
 
 
 class Team(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def name(self) -> str:
@@ -1099,8 +1065,6 @@ class Team(LpdbBaseResponseData):
 
 
 class Tournament(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def name(self) -> str:
@@ -1251,8 +1215,6 @@ class Tournament(LpdbBaseResponseData):
 
 
 class Transfer(LpdbBaseResponseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def player(self) -> str:
@@ -1300,8 +1262,6 @@ class Transfer(LpdbBaseResponseData):
 
 
 class TeamTemplate(LpdbBaseData):
-    def __init__(self, raw):
-        super().__init__(raw)
 
     @property
     def template(self) -> str:
