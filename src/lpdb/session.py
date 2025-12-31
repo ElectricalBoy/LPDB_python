@@ -59,7 +59,11 @@ class AbstractLpdbSession(ABC):
         self.__api_key = re.sub(r"^ApiKey ", "", api_key)
 
     def _get_header(self) -> dict[str, str]:
-        return {"authorization": f"Apikey {self.__api_key}", "accept": "application/json", "accept-encoding": "gzip"}
+        return {
+            "authorization": f"Apikey {self.__api_key}",
+            "accept": "application/json",
+            "accept-encoding": "gzip",
+        }
 
     @staticmethod
     @abstractmethod
@@ -117,7 +121,9 @@ class AbstractLpdbSession(ABC):
 
         :raises LpdbError: if something went wrong with the request
         """
-        response = self.make_request(lpdb_datatype, wiki, conditions=conditions, query=["count::objectname"])
+        response = self.make_request(
+            lpdb_datatype, wiki, conditions=conditions, query=["count::objectname"]
+        )
         return response[0]["count_objectname"]
 
     @abstractmethod

@@ -91,14 +91,16 @@ class AsyncLpdbSession(AbstractLpdbSession):
             ),
         ) as response:
             return await AsyncLpdbSession.__handle_response(response)
-        
+
     async def make_count_request(
         self,
         lpdb_datatype,
         wiki: str,
         conditions: Optional[str] = None,
     ) -> int:
-        response = await self.make_request(lpdb_datatype, wiki=wiki, conditions=conditions, query=["count::objectname"])
+        response = await self.make_request(
+            lpdb_datatype, wiki=wiki, conditions=conditions, query=["count::objectname"]
+        )
         return response[0]["count_objectname"]
 
     async def get_team_template(
