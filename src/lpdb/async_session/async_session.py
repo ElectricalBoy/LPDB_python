@@ -1,7 +1,7 @@
 from datetime import date
 from http import HTTPStatus
 from types import TracebackType
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, override
 
 import aiohttp
 
@@ -78,6 +78,8 @@ class AsyncLpdbSession(AbstractLpdbSession):
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
     ) -> list[dict[str, Any]]:
+        if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
+            raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
         async with self.__session.get(
             lpdb_datatype,
             headers=self._get_header(),

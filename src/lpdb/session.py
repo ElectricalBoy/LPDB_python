@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 from datetime import date
 from http import HTTPStatus
-from typing import Any, Final, Literal, NotRequired, Optional, Required, TypedDict
+from typing import Any, Final, Literal, NotRequired, Optional, override, Required, TypedDict, TypeGuard
 import re
 import warnings
 
@@ -10,6 +10,8 @@ import requests
 from .defs import TeamTemplate
 
 __all__ = ["LpdbError", "LpdbWarning", "LpdbSession"]
+
+type LpdbDataType = Literal["broadcasters", "company", "datapoint", "externalmedialink", "match", "placement", "player", "series", "squadplayer", "standingsentry", "standingstable", "team", "tournament", "transfer"]
 
 
 class LpdbResponse(TypedDict):
@@ -54,6 +56,23 @@ class AbstractLpdbSession(ABC):
 
     BASE_URL: Final[str] = "https://api.liquipedia.net/api/v3/"
 
+    __DATA_TYPES: Final[set[str]] = {
+        "broadcasters",
+        "company",
+        "datapoint",
+        "externalmedialink",
+        "match",
+        "placement",
+        "player",
+        "series",
+        "squadplayer",
+        "standingsentry",
+        "standingstable",
+        "team",
+        "tournament",
+        "transfer",
+    }
+
     __api_key: str
 
     def __init__(self, api_key: str):
@@ -65,6 +84,10 @@ class AbstractLpdbSession(ABC):
             "accept": "application/json",
             "accept-encoding": "gzip",
         }
+
+    @staticmethod
+    def _validate_datatype_name(lpdb_datatype: str) -> TypeGuard[LpdbDataType]:
+        return lpdb_datatype in AbstractLpdbSession.__DATA_TYPES
 
     @staticmethod
     @abstractmethod
@@ -179,7 +202,7 @@ class AbstractLpdbSession(ABC):
         if isinstance(wiki, str):
             parameters["wiki"] = wiki
         elif isinstance(wiki, list):
-            parameters["wiki"] = "|".join(wiki)
+            parameters["wiki"] = ", ".join(wiki)
         else:
             raise TypeError()
         parameters["limit"] = min(limit, 1000)
@@ -239,7 +262,7 @@ class LpdbSession(AbstractLpdbSession):
 
     def make_request(
         self,
-        lpdb_datatype,
+        lpdb_datatype: str,
         wiki: str | list[str],
         limit: int = 20,
         offset: int = 0,
@@ -248,6 +271,8 @@ class LpdbSession(AbstractLpdbSession):
         order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
         groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
     ) -> list[dict[str, Any]]:
+        if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
+            raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
         lpdb_response = requests.get(
             AbstractLpdbSession.BASE_URL + lpdb_datatype,
             headers=self._get_header(),
