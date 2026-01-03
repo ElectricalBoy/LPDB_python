@@ -1,6 +1,6 @@
 # LPDB-python
 
-LPDB-python wraps the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API) with Python.
+LPDB-python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
 
 ## License
 
