@@ -26,7 +26,7 @@ jobs:
           enable-cache: true
 
       - name: Run tests
-        uses: uv run pytest --junit-xml=pytest.xml
+        run: uv run pytest --junit-xml=pytest.xml
 
       - name: Publish Test Results
         if: ${{ always() }}
