@@ -38,11 +38,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
-      - name: Checkout repository
-        uses: actions/checkout@v6
+          python-version-file: "pyproject.toml"
       - name: Check styling
         uses: psf/black@stable
