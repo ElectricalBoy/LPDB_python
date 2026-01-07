@@ -30,6 +30,9 @@ jobs:
         with:
           enable-cache: true
 
+      - name: Setup project
+        run: uv sync --locked --all-extras --dev
+
       - name: Run tests
         run: uv run pytest --junit-xml=pytest.xml
         env:
