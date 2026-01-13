@@ -148,6 +148,7 @@ class AbstractLpdbSession(ABC):
 
         :returns: result of the query
 
+        :raises ValueError: if an invalid `lpdb_datatype` is supplied
         :raises LpdbError: if something went wrong with the request
         """
         pass
@@ -167,6 +168,7 @@ class AbstractLpdbSession(ABC):
 
         :returns: number of objects that satisfy the condition(s)
 
+        :raises ValueError: if an invalid `lpdb_datatype` is supplied
         :raises LpdbError: if something went wrong with the request
         """
         response = self.make_request(
