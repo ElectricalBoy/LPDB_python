@@ -31,4 +31,7 @@ __all__ = [
     "TeamTemplate",
 ]
 
-__version__ = _metadata.version("LPDB_python")
+try:
+    __version__ = _metadata.version(__name__)
+except _metadata.PackageNotFoundError:
+    __version__ = "0.0.0"
