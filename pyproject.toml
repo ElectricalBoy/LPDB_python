@@ -3,7 +3,7 @@ requires = ["setuptools >= 80", "setuptools-scm[simple]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "LPDB_python"
+name = "lpdb"
 dynamic = ["version"]
 requires-python = ">= 3.12"
 readme = "README.md"
