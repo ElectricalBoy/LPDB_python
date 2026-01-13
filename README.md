@@ -2,6 +2,26 @@
 
 LPDB-python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
 
+## LPDB Session
+
+Python wrapper for LPDB session is defined in [session.py](src/lpdb/session.py). The wrapper provides the following
+differences from making your own requests:
+
+- Type hints
+- Validation of data type names being requested  
+  If an invalid data type is supplied, then the session will raise `ValueError` before attempting to make a request.
+- Error / warning handling  
+  If an error is returned by LPDB, then they will be converted to and raised as a Python exception.
+- Pre-configured request header, including formatting of your API key in the request header  
+  
+  ```python
+  import lpdb
+
+  # These are equivalent
+  session = lpdb.LpdbSession("your_lpdb_api_key")
+  session = lpdb.LpdbSession("Apikey your_lpdb_api_key")
+  ```
+
 ## LPDB Data Types
 
 Data types in LPDB can be found in <https://liquipedia.net/commons/Help:LiquipediaDB>.
