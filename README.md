@@ -2,6 +2,36 @@
 
 LPDB-python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
 
+## LPDB Data Types
+
+Data types in LPDB can be found in <https://liquipedia.net/commons/Help:LiquipediaDB>.
+
+The raw data returned from LPDB may not be in the corresponding Python types. To help easily access the data,
+[defs.py](src/lpdb/defs.py) file provides wrappers for each available data types that offers converted data
+as object properties.
+
+A property provided by the wrapper may be `None` if the raw data passed to the constructor of the wrapper
+did not contain the data, or if it contained an empty string. Thus, the user should be checking for `None`
+where appropriate.
+
+### Example
+
+```python
+import lpdb
+
+session = lpdb.LpdbSession("your_lpdb_api_key")
+
+matches = [
+    lpdb.Match(lpdb_raw_match)
+    for lpdb_raw_match in session.make_request(
+        "match",
+        "leagueoflegends",
+        conditions="[[parent::World_Championship/2025]]",
+        streamurls="true",
+    )
+]
+```
+
 ## License
 
 This library is licensed under the [MIT License](./LICENSE), unless otherwise stated in the header of a file.  
