@@ -80,7 +80,7 @@ class AbstractLpdbSession(ABC):
 
     BASE_URL: Final[str] = "https://api.liquipedia.net/api/v3/"
 
-    __DATA_TYPES: Final[set[str]] = {
+    __DATA_TYPES: Final[frozenset[str]] = frozenset({
         "broadcasters",
         "company",
         "datapoint",
@@ -95,7 +95,7 @@ class AbstractLpdbSession(ABC):
         "team",
         "tournament",
         "transfer",
-    }
+    })
 
     __api_key: str
 
