@@ -172,7 +172,7 @@ class AbstractLpdbSession(ABC):
         :raises LpdbError: if something went wrong with the request
         """
         response = self.make_request(
-            lpdb_datatype, wiki, conditions=conditions, query=["count::objectname"]
+            lpdb_datatype, wiki, conditions=conditions, query="count::objectname"
         )
         return response[0]["count_objectname"]
 

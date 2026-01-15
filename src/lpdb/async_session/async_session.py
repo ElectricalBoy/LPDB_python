@@ -106,7 +106,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         conditions: Optional[str] = None,
     ) -> int:
         response = await self.make_request(
-            lpdb_datatype, wiki=wiki, conditions=conditions, query=["count::objectname"]
+            lpdb_datatype, wiki=wiki, conditions=conditions, query="count::objectname"
         )
         return response[0]["count_objectname"]
 
