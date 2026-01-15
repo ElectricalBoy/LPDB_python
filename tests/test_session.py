@@ -66,6 +66,24 @@ def test_make_request_with_order(session: lpdb.LpdbSession):
         assert responses[i - 1]["date"] <= responses[i]["date"]
 
 
+def test_make_count_request(session: lpdb.LpdbSession):
+    responses = session.make_request(
+        "match",
+        "leagueoflegends",
+        conditions="[[parent::World_Championship/2025]]",
+        limit=1000,
+    )
+
+    count_response = session.make_count_request(
+        "match",
+        "leagueoflegends",
+        conditions="[[parent::World_Championship/2025]]",
+    )
+
+    assert isinstance(count_response, int)
+    assert len(responses) == count_response
+
+
 def test_get_team_template(session: lpdb.LpdbSession):
     template = session.get_team_template("leagueoflegends", "t1")
     assert template["page"] == "T1"
