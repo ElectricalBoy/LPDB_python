@@ -53,6 +53,19 @@ def test_make_request(session: lpdb.LpdbSession):
         assert response["parent"] == "World_Championship/2025"
 
 
+def test_make_request_with_order(session: lpdb.LpdbSession):
+    responses = session.make_request(
+        "match",
+        "leagueoflegends",
+        conditions="[[parent::World_Championship/2025]]",
+        order=[("date", "asc")],
+        streamurls="true",
+    )
+
+    for i in range(1, len(responses)):
+        assert responses[i - 1]["date"] <= responses[i]["date"]
+
+
 def test_get_team_template(session: lpdb.LpdbSession):
     template = session.get_team_template("leagueoflegends", "t1")
     assert template["page"] == "T1"
