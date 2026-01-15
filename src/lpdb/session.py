@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC
 from datetime import date
+from functools import cache
 from http import HTTPStatus
 from typing import (
     Any,
@@ -101,6 +102,7 @@ class AbstractLpdbSession(ABC):
     def __init__(self, api_key: str):
         self.__api_key = re.sub(r"^ApiKey ", "", api_key)
 
+    @cache
     def _get_header(self) -> dict[str, str]:
         return {
             "authorization": f"Apikey {self.__api_key}",
