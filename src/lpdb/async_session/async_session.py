@@ -74,9 +74,9 @@ class AsyncLpdbSession(AbstractLpdbSession):
         limit: int = 20,
         offset: int = 0,
         conditions: Optional[str] = None,
-        query: Optional[list[str]] = None,
-        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        query: Optional[str | list[str]] = None,
+        order: Optional[str | list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[str | list[tuple[str, Literal["asc", "desc"]]]] = None,
         **kwargs,
     ) -> list[dict[str, Any]]:
         if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):

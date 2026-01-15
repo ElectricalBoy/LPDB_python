@@ -220,9 +220,9 @@ class AbstractLpdbSession(ABC):
         limit: int = 20,
         offset: int = 0,
         conditions: Optional[str] = None,
-        query: Optional[list[str]] = None,
-        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        query: Optional[str | list[str]] = None,
+        order: Optional[str | list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[str | list[tuple[str, Literal["asc", "desc"]]]] = None,
         **kwargs,
     ):
         parameters = dict(kwargs)
@@ -237,15 +237,27 @@ class AbstractLpdbSession(ABC):
         if conditions != None:
             parameters["conditions"] = conditions
         if query != None:
-            parameters["query"] = ", ".join(query)
+            if isinstance(query, str):
+                parameters["query"] = query
+            else:
+                parameters["query"] = ", ".join(query)
         if order != None:
-            parameters["order"] = ", ".join(
-                [f"{order_tuple[0]} {order_tuple[1]}" for order_tuple in order]
-            )
+            if isinstance(order, str):
+                parameters["order"] = order
+            else:
+                parameters["order"] = ", ".join(
+                    [f"{order_tuple[0]} {order_tuple[1]}" for order_tuple in order]
+                )
         if groupby != None:
-            parameters["groupby"] = ", ".join(
-                [f"{groupby_tuple[0]} {groupby_tuple[1]}" for groupby_tuple in groupby]
-            )
+            if isinstance(groupby, str):
+                parameters["groupby"] = groupby
+            else:
+                parameters["groupby"] = ", ".join(
+                    [
+                        f"{groupby_tuple[0]} {groupby_tuple[1]}"
+                        for groupby_tuple in groupby
+                    ]
+                )
         return parameters
 
     @staticmethod
@@ -295,9 +307,9 @@ class LpdbSession(AbstractLpdbSession):
         limit: int = 20,
         offset: int = 0,
         conditions: Optional[str] = None,
-        query: Optional[list[str]] = None,
-        order: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
-        groupby: Optional[list[tuple[str, Literal["asc", "desc"]]]] = None,
+        query: Optional[str | list[str]] = None,
+        order: Optional[str | list[tuple[str, Literal["asc", "desc"]]]] = None,
+        groupby: Optional[str | list[tuple[str, Literal["asc", "desc"]]]] = None,
         **kwargs,
     ) -> list[dict[str, Any]]:
         if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
