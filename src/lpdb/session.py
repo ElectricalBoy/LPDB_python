@@ -80,27 +80,30 @@ class AbstractLpdbSession(ABC):
 
     BASE_URL: Final[str] = "https://api.liquipedia.net/api/v3/"
 
-    __DATA_TYPES: Final[frozenset[str]] = frozenset({
-        "broadcasters",
-        "company",
-        "datapoint",
-        "externalmedialink",
-        "match",
-        "placement",
-        "player",
-        "series",
-        "squadplayer",
-        "standingsentry",
-        "standingstable",
-        "team",
-        "tournament",
-        "transfer",
-    })
+    __DATA_TYPES: Final[frozenset[str]] = frozenset(
+        {
+            "broadcasters",
+            "company",
+            "datapoint",
+            "externalmedialink",
+            "match",
+            "placement",
+            "player",
+            "series",
+            "squadplayer",
+            "standingsentry",
+            "standingstable",
+            "team",
+            "tournament",
+            "transfer",
+        }
+    )
 
     __api_key: str
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, base_url: str = BASE_URL):
         self.__api_key = re.sub(r"^ApiKey ", "", api_key)
+        self._base_url = base_url
 
     @cache
     def _get_header(self) -> dict[str, str]:
@@ -317,7 +320,7 @@ class LpdbSession(AbstractLpdbSession):
         if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
             raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
         lpdb_response = requests.get(
-            AbstractLpdbSession.BASE_URL + lpdb_datatype,
+            self._base_url + lpdb_datatype,
             headers=self._get_header(),
             params=AbstractLpdbSession._parse_params(
                 wiki=wiki,
@@ -343,7 +346,7 @@ class LpdbSession(AbstractLpdbSession):
         if date != None:
             params["date"] = date.isoformat()
         lpdb_response = requests.get(
-            AbstractLpdbSession.BASE_URL + "teamtemplate",
+            self._base_url + "teamtemplate",
             headers=self._get_header(),
             params=params,
         )
@@ -354,7 +357,7 @@ class LpdbSession(AbstractLpdbSession):
         self, wiki: str, pagination: int = 1
     ) -> list[dict[str, Any]]:
         lpdb_response = requests.get(
-            AbstractLpdbSession.BASE_URL + "teamtemplatelist",
+            self._base_url + "teamtemplatelist",
             headers=self._get_header(),
             params={"wiki": wiki, "pagination": pagination},
         )

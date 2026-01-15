@@ -17,10 +17,10 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     __session: aiohttp.ClientSession
 
-    def __init__(self, api_key):
-        super().__init__(api_key)
+    def __init__(self, api_key, base_url=AbstractLpdbSession.BASE_URL):
+        super().__init__(api_key, base_url=base_url)
         self.__session = aiohttp.ClientSession(
-            AbstractLpdbSession.BASE_URL, headers=self._get_header()
+            self._base_url, headers=self._get_header()
         )
 
     def __enter__(self) -> None:
