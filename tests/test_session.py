@@ -41,16 +41,20 @@ def test_make_request_invalid_type(session: lpdb.LpdbSession):
         session.make_request("match2", "leagueoflegends")
 
 
-def test_make_request(session: lpdb.LpdbSession):
+def test_make_request_with_specific_datapoints(session: lpdb.LpdbSession):
     responses = session.make_request(
         "match",
         "leagueoflegends",
-        conditions="[[parent::World_Championship/2025]]",
+        conditions="[[parent::World_Championship/2024]]",
+        query=["parent", "date"],
         streamurls="true",
     )
 
     for response in responses:
-        assert response["parent"] == "World_Championship/2025"
+        assert response["parent"] == "World_Championship/2024"
+        assert isinstance(response["date"], str)
+        with pytest.raises(KeyError):
+            print(response["liquipediatier"])
 
 
 def test_make_request_with_order(session: lpdb.LpdbSession):
