@@ -51,7 +51,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
             async with session.get(
                 "api.php",
                 params={"action": "listwikis"},
-                headers={"accept-encoding": "gzip"},
+                headers={"accept": "application/json", "accept-encoding": "gzip"},
             ) as response:
                 wikis = await response.json()
                 return set(wikis["allwikis"].keys())

@@ -289,7 +289,7 @@ class LpdbSession(AbstractLpdbSession):
         response = requests.get(
             "https://liquipedia.net/api.php",
             params={"action": "listwikis"},
-            headers={"accept-encoding": "gzip"},
+            headers={"accept": "application/json", "accept-encoding": "gzip"},
         )
         wikis = response.json()
         return set(wikis["allwikis"].keys())
