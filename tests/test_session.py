@@ -61,7 +61,7 @@ def test_make_request_with_order(session: lpdb.LpdbSession):
     responses = session.make_request(
         "match",
         "leagueoflegends",
-        conditions="[[parent::World_Championship/2025]]",
+        conditions="[[parent::Mid-Season_Invitational/2025]]",
         order=[("date", "asc")],
         streamurls="true",
     )
