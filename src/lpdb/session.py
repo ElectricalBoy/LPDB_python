@@ -18,7 +18,7 @@ import warnings
 
 import requests
 
-__all__ = ["LpdbError", "LpdbWarning", "LpdbSession"]
+__all__ = ["LpdbDataType", "LpdbError", "LpdbWarning", "LpdbSession"]
 
 type LpdbDataType = Literal[
     "broadcasters",
