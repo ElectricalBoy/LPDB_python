@@ -19,7 +19,9 @@ class AsyncLpdbSession(AbstractLpdbSession):
 
     def __init__(self, api_key):
         super().__init__(api_key)
-        self.__session = aiohttp.ClientSession(AbstractLpdbSession.BASE_URL)
+        self.__session = aiohttp.ClientSession(
+            AbstractLpdbSession.BASE_URL, headers=self._get_header()
+        )
 
     def __enter__(self) -> None:
         raise TypeError("Use async with instead")
@@ -83,7 +85,6 @@ class AsyncLpdbSession(AbstractLpdbSession):
             raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
         async with self.__session.get(
             lpdb_datatype,
-            headers=self._get_header(),
             params=AbstractLpdbSession._parse_params(
                 wiki=wiki,
                 limit=limit,
@@ -119,9 +120,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         }
         if date != None:
             params["date"] = date.isoformat()
-        async with self.__session.get(
-            "teamtemplate", headers=self._get_header(), params=params
-        ) as response:
+        async with self.__session.get("teamtemplate", params=params) as response:
             parsed_response = await AsyncLpdbSession.__handle_response(response)
             if parsed_response[0] == None:
                 return None
@@ -133,7 +132,6 @@ class AsyncLpdbSession(AbstractLpdbSession):
     ) -> list[dict[str, Any]]:
         async with self.__session.get(
             "teamtemplatelist",
-            headers=self._get_header(),
             params={"wiki": wiki, "pagination": pagination},
         ) as response:
             return await AsyncLpdbSession.__handle_response(response)
