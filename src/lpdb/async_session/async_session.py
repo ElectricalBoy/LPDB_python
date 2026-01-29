@@ -60,13 +60,9 @@ class AsyncLpdbSession(AbstractLpdbSession):
     async def __handle_response(
         response: aiohttp.ClientResponse,
     ) -> list[dict[str, Any]]:
-        try:
-            return AbstractLpdbSession._parse_results(await response.json())
-        except Exception as e:
-            if isinstance(e, LpdbError):
-                raise e
-            status = HTTPStatus(response.status)
-            raise LpdbError(f"HTTP {status}: {status.name}") from e
+        return AbstractLpdbSession._parse_results(
+            response.status, await response.json()
+        )
 
     @override
     async def make_request(

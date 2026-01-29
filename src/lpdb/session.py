@@ -277,7 +277,9 @@ class AbstractLpdbSession(ABC):
         return parameters
 
     @staticmethod
-    def _parse_results(response: LpdbResponse) -> list[dict[str, Any]]:
+    def _parse_results(
+        status_code: int, response: LpdbResponse
+    ) -> list[dict[str, Any]]:
         result = response["result"]
         lpdb_warnings = response.get("warning")
         lpdb_errors = response.get("error")
@@ -292,6 +294,9 @@ class AbstractLpdbSession(ABC):
                     wiki=rate_limit.group("wiki"), table=rate_limit.group("table")
                 )
             raise LpdbError(re.sub(r"^Error: ?", "", lpdb_errors[0]))
+        elif status_code != HTTPStatus.OK:
+            status = HTTPStatus(status_code)
+            raise LpdbError(f"HTTP {status_code}: {status.name}")
         if lpdb_warnings and len(lpdb_warnings) != 0:
             for lpdb_warning in lpdb_warnings:
                 warnings.warn(lpdb_warning, LpdbWarning)
@@ -315,13 +320,8 @@ class LpdbSession(AbstractLpdbSession):
 
     @staticmethod
     def __handle_response(response: requests.Response) -> list[dict[str, Any]]:
-        try:
-            return AbstractLpdbSession._parse_results(response.json())
-        except Exception as e:
-            if isinstance(e, LpdbError):
-                raise e
-            status = HTTPStatus(response.status_code)
-            raise LpdbError(f"HTTP {status}: {status.name}") from e
+        status = HTTPStatus(response.status_code)
+        return AbstractLpdbSession._parse_results(status, response.json())
 
     @override
     def make_request(
