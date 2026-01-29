@@ -65,6 +65,17 @@ class LpdbError(Exception):
     pass
 
 
+class LpdbRateLimitError(LpdbError):
+    """
+    Raised when the LPDB request created a fatal issue.
+    """
+
+    def __init__(self, wiki: str, table: str, *args):
+        super().__init__(f'Rate limit reached for table "{table}" in "{wiki}"')
+        self.wiki = wiki
+        self.table = table
+
+
 class LpdbWarning(Warning):
     """
     Warnings about LPDB response.
@@ -272,6 +283,14 @@ class AbstractLpdbSession(ABC):
         lpdb_errors = response.get("error")
 
         if lpdb_errors and len(lpdb_errors) != 0:
+            rate_limit = re.match(
+                r"API key \"[0-9A-Za-z]+\" limits for wiki \"(?P<wiki>[a-z]+)\" and table \"(?P<table>[a-z]+)\" exceeded\.",
+                lpdb_errors[0],
+            )
+            if rate_limit:
+                raise LpdbRateLimitError(
+                    wiki=rate_limit.group("wiki"), table=rate_limit.group("table")
+                )
             raise LpdbError(re.sub(r"^Error: ?", "", lpdb_errors[0]))
         if lpdb_warnings and len(lpdb_warnings) != 0:
             for lpdb_warning in lpdb_warnings:
