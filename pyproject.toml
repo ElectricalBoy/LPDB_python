@@ -4,6 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lpdb_python"
+authors = [
+  { name="ElectricalBoy", email="electricalboy01@gmail.com" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
 dynamic = ["version"]
 requires-python = ">= 3.12"
 readme = "README.md"
