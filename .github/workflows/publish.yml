@@ -1,17 +1,16 @@
 name: Publish
 
 on:
-  # push:
-  #   tags:
-  #     # Publish on any tag starting with a `v`, e.g., v0.1.0
-  #     - v*
-  workflow_dispatch:
+  push:
+    tags:
+      # Publish on any tag starting with a `v`, e.g., v0.1.0
+      - v*
 
 jobs:
   run:
     runs-on: ubuntu-latest
     environment:
-      name: testpypi
+      name: pypi
     permissions:
       id-token: write
       contents: read
@@ -31,4 +30,4 @@ jobs:
         run: uv build
 
       - name: Publish
-        run: uv publish --index testpypi
+        run: uv publish
