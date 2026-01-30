@@ -356,6 +356,8 @@ class Match(LpdbBaseResponseData):
         """
         if not self.dateexact:
             return None
+        elif self.extradata == None:
+            return None
         offset: str = self.extradata.get("timezoneoffset")
         if offset == None:
             return None
