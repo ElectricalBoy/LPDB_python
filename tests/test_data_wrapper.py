@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-import lpdb
+import lpdb_python as lpdb
 
 
 @pytest.fixture

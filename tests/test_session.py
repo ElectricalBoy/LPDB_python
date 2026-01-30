@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-import lpdb
+import lpdb_python as lpdb
 
 KEY = os.getenv("API_KEY")
 

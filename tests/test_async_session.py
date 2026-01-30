@@ -3,8 +3,8 @@ import os
 import pytest
 import pytest_asyncio
 
-import lpdb
-from lpdb.async_session import AsyncLpdbSession
+import lpdb_python as lpdb
+from lpdb_python.async_session import AsyncLpdbSession
 
 KEY = os.getenv("API_KEY")
 

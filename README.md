@@ -1,10 +1,10 @@
-# LPDB-python
+# LPDB_python
 
 [![CI](https://github.com/ElectricalBoy/LPDB_python/actions/workflows/ci.yml/badge.svg)](https://github.com/ElectricalBoy/LPDB_python/actions/workflows/ci.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![GitHub License](https://img.shields.io/github/license/ElectricalBoy/LPDB-python)
 
-LPDB-python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
+LPDB_python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
 
 ## LPDB Session
 
@@ -19,7 +19,7 @@ differences from making your own requests:
 - Pre-configured request header, including formatting of your API key in the request header  
   
   ```python
-  import lpdb
+  import lpdb_python as lpdb
 
   # These are equivalent
   session = lpdb.LpdbSession("your_lpdb_api_key")
@@ -41,7 +41,7 @@ where appropriate.
 ### Example
 
 ```python
-import lpdb
+import lpdb_python as lpdb
 
 session = lpdb.LpdbSession("your_lpdb_api_key")
 
