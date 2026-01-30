@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ElectricalBoy/LPDB_python/actions/workflows/ci.yml/badge.svg)](https://github.com/ElectricalBoy/LPDB_python/actions/workflows/ci.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![GitHub License](https://img.shields.io/github/license/ElectricalBoy/LPDB-python)
+![GitHub License](https://img.shields.io/github/license/ElectricalBoy/LPDB_python)
 
 LPDB_python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
 
