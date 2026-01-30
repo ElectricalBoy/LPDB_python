@@ -6,7 +6,6 @@ import pytest_asyncio
 import lpdb
 from lpdb.async_session import AsyncLpdbSession
 
-
 KEY = os.getenv("API_KEY")
 
 
