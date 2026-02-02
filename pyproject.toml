@@ -32,7 +32,8 @@ async = [
 [dependency-groups]
 dev = [
     {include-group = "test"},
-    {include-group = "lint"}
+    {include-group = "lint"},
+    {include-group = "docs"}
 ]
 test = [
     "pytest",
@@ -40,6 +41,9 @@ test = [
 ]
 lint = [
     "black",
+]
+docs = [
+    "pdoc",
 ]
 
 [tool.pytest.ini_options]

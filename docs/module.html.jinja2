@@ -1,0 +1,9 @@
+{% extends "default/module.html.jinja2" %}
+
+{% block nav_footer %}
+    <footer>
+        lpdb_python {{ env["VERSION"] | default("0.0.0") }}
+        <br />
+        <a href="https://github.com/ElectricalBoy/LPDB_python"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ElectricalBoy/lpdb_python" /></a>
+    </footer>
+{% endblock %}
