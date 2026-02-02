@@ -162,7 +162,7 @@ class AbstractLpdbSession(ABC):
         :param order: the order of results to be sorted in; each ordering rule is specified as a `(datapoint, direction)` tuple
         :param groupby: the way that the query results are grouped; each grouping rule is specified as a `(datapoint, direction)` tuple
 
-        :returns: result of the query
+        :return: result of the query
 
         :raises ValueError: if an invalid `lpdb_datatype` is supplied
         :raises LpdbError: if something went wrong with the request
@@ -182,7 +182,7 @@ class AbstractLpdbSession(ABC):
         :param wiki: the wiki to query
         :param conditions: the conditions for the query
 
-        :returns: number of objects that satisfy the condition(s)
+        :return: number of objects that satisfy the condition(s)
 
         :raises ValueError: if an invalid `lpdb_datatype` is supplied
         :raises LpdbError: if something went wrong with the request
@@ -206,7 +206,7 @@ class AbstractLpdbSession(ABC):
         :param template: the name of team template
         :param date: the contextual date for the requested team template
 
-        :returns: the requested team template, may return `None` if the requested team template does not exist
+        :return: the requested team template, may return `None` if the requested team template does not exist
 
         :raises LpdbError: if something went wrong with the request
         """
@@ -224,7 +224,7 @@ class AbstractLpdbSession(ABC):
         :param wiki: the wiki to query
         :param pagination: used for pagination
 
-        :returns: team templates
+        :return: team templates
 
         :raises LpdbError: if something went wrong with the request
         """
