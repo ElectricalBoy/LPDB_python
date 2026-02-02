@@ -9,7 +9,7 @@ LPDB_python provides Python interfaces for the [Liquipedia Database API](https:/
 
 ## LPDB Session
 
-Python wrapper for LPDB session is defined in [session.py](src/lpdb/session.py). The wrapper provides the following
+Python wrapper for LPDB session is defined in [session.py](src/lpdb_python/session.py). The wrapper provides the following
 differences from making your own requests:
 
 - Type hints
@@ -32,7 +32,7 @@ differences from making your own requests:
 Data types in LPDB can be found in <https://liquipedia.net/commons/Help:LiquipediaDB>.
 
 The raw data returned from LPDB may not be in the corresponding Python types. To help easily access the data,
-[defs.py](src/lpdb/defs.py) file provides wrappers for each available data types that offers converted data
+[defs.py](src/lpdb_python/defs.py) file provides wrappers for each available data types that offers converted data
 as object properties.
 
 A property provided by the wrapper may be `None` if the raw data passed to the constructor of the wrapper
