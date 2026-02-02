@@ -4,7 +4,7 @@ from typing import Any, Literal, Optional, override
 
 import aiohttp
 
-from ..session import AbstractLpdbSession, LpdbDataType, LpdbError
+from ..session import AbstractLpdbSession, LpdbDataType
 
 __all__ = ["AsyncLpdbSession"]
 
