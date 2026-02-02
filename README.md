@@ -7,7 +7,21 @@
 
 LPDB_python provides Python interfaces for the [Liquipedia Database API](https://liquipedia.net/api) (LPDB API).
 
-## LPDB Session
+## What You Need
+
+- Python 3.12 or later
+- API key for LPDB
+- (Optional) [aiohttp](https://github.com/aio-libs/aiohttp)
+
+## Installation
+
+```bash
+pip install lpdb_python
+```
+
+## Basic Uses
+
+### LPDB Session
 
 Python wrapper for LPDB session is defined in [session.py](src/lpdb_python/session.py). The wrapper provides the following
 differences from making your own requests:
@@ -27,7 +41,16 @@ differences from making your own requests:
   session = lpdb.LpdbSession("Apikey your_lpdb_api_key")
   ```
 
-## LPDB Data Types
+#### Async Session
+
+Asynchronous implementation of LPDB session can be found in [async_session/session.py](src/lpdb_python/async_session/async_session.py).
+This implementation depends on [aiohttp](https://github.com/aio-libs/aiohttp), which can be installed with this library with the following command:
+
+```bash
+pip install lpdb_python[async]
+```
+
+### LPDB Data Types
 
 Data types in LPDB can be found in <https://liquipedia.net/commons/Help:LiquipediaDB>.
 
@@ -39,7 +62,7 @@ A property provided by the wrapper may be `None` if the raw data passed to the c
 did not contain the data, or if it contained an empty string. Thus, the user should be checking for `None`
 where appropriate.
 
-### Example
+#### Example
 
 ```python
 import lpdb_python as lpdb
