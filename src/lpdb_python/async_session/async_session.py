@@ -50,7 +50,6 @@ class AsyncLpdbSession(AbstractLpdbSession):
         async with aiohttp.ClientSession("https://liquipedia.net/") as session:
             async with session.get(
                 "api.php",
-                params={"action": "listwikis"},
                 headers={"accept": "application/json", "accept-encoding": "gzip"},
             ) as response:
                 wikis = await response.json()
