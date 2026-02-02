@@ -1,5 +1,4 @@
 from datetime import date
-from http import HTTPStatus
 from types import TracebackType
 from typing import Any, Literal, Optional, override
 
