@@ -4,8 +4,7 @@ Python interface for Liquipedia Database (LPDB) API
 
 import importlib.metadata as _metadata
 
-from .defs import LpdbError, LpdbWarning, LpdbSession
-from .session import (
+from .defs import (
     OpponentType,
     Broadcasters,
     Company,
@@ -25,6 +24,7 @@ from .session import (
     Transfer,
     TeamTemplate,
 )
+from .session import LpdbError, LpdbWarning, LpdbSession
 
 __all__ = [
     "OpponentType",
