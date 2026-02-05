@@ -250,21 +250,21 @@ class AbstractLpdbSession(ABC):
             raise TypeError()
         parameters["limit"] = min(limit, 1000)
         parameters["offset"] = offset
-        if conditions != None:
+        if conditions is not None:
             parameters["conditions"] = conditions
-        if query != None:
+        if query is not None:
             if isinstance(query, str):
                 parameters["query"] = query
             else:
                 parameters["query"] = ", ".join(query)
-        if order != None:
+        if order is not None:
             if isinstance(order, str):
                 parameters["order"] = order
             else:
                 parameters["order"] = ", ".join(
                     [f"{order_tuple[0]} {order_tuple[1]}" for order_tuple in order]
                 )
-        if groupby != None:
+        if groupby is not None:
             if isinstance(groupby, str):
                 parameters["groupby"] = groupby
             else:
@@ -361,7 +361,7 @@ class LpdbSession(AbstractLpdbSession):
             "wiki": wiki,
             "template": template,
         }
-        if date != None:
+        if date is not None:
             params["date"] = date.isoformat()
         lpdb_response = requests.get(
             self._base_url + "teamtemplate",

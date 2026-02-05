@@ -112,11 +112,11 @@ class AsyncLpdbSession(AbstractLpdbSession):
             "wiki": wiki,
             "template": template,
         }
-        if date != None:
+        if date is not None:
             params["date"] = date.isoformat()
         async with self.__session.get("teamtemplate", params=params) as response:
             parsed_response = await AsyncLpdbSession.__handle_response(response)
-            if parsed_response[0] == None:
+            if parsed_response[0] is None:
                 return None
             return parsed_response[0]
 

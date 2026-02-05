@@ -341,7 +341,7 @@ class Match(LpdbBaseResponseData):
         parsed = _parseIsoDateTime(self._rawGet("date"))
         if not self.dateexact:
             return parsed
-        elif self.timezone != None:
+        elif self.timezone is not None:
             return parsed.astimezone(tz=self.timezone)
         return parsed
 
@@ -356,10 +356,10 @@ class Match(LpdbBaseResponseData):
         """
         if not self.dateexact:
             return None
-        elif self.extradata == None:
+        elif self.extradata is None:
             return None
         offset: str = self.extradata.get("timezoneoffset")
-        if offset == None:
+        if offset is None:
             return None
         sliced_offset = offset.split(":")
         offset_delta = timedelta(
@@ -426,10 +426,6 @@ class Match(LpdbBaseResponseData):
     @property
     def match2bracketdata(self) -> dict:
         return self._rawGet("match2bracketdata")
-
-    @property
-    def tickername(self) -> str:
-        return self._rawGet("tickername")
 
     @property
     def match2games(self) -> list["MatchGame"]:
@@ -567,12 +563,8 @@ class MatchOpponent(LpdbBaseData):
         return self._rawGet("match2players")
 
     @property
-    def extradata(self) -> dict:
-        return self._rawGet("extradata")
-
-    @property
     def teamtemplate(self) -> Optional["TeamTemplate"]:
-        if self.template == None:
+        if self.template is None:
             return None
         return TeamTemplate(self._rawGet("teamtemplate"))
 
@@ -1219,7 +1211,7 @@ class Tournament(LpdbBaseResponseData):
     @property
     def maps(self) -> list[str]:
         map_data: Optional[str] = self._rawGet("maps")
-        if map_data == None:
+        if map_data is None:
             return None
         return map_data.split(";")
 

@@ -27,7 +27,7 @@ def test_read_match_data(match_data: lpdb.Match):
 
     assert match_data.liquipediatier == "1"
 
-    assert match_data.liquipediatiertype == None
+    assert match_data.liquipediatiertype is None
 
     assert match_data.finished
 
