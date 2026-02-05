@@ -50,3 +50,6 @@ docs = [
 pythonpath = [
     "src"
 ]
+
+[tool.ruff]
+target-version = "py312"
