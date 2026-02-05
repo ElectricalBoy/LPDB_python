@@ -119,7 +119,6 @@ class LpdbBaseResponseData(LpdbBaseData):
 
 
 class Broadcasters(LpdbBaseResponseData):
-
     @property
     def id(self) -> str:
         return self._rawGet("id")
@@ -158,7 +157,6 @@ class Broadcasters(LpdbBaseResponseData):
 
 
 class Company(LpdbBaseResponseData):
-
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -213,7 +211,6 @@ class Company(LpdbBaseResponseData):
 
 
 class Datapoint(LpdbBaseResponseData):
-
     @property
     def type(self) -> str:
         return self._rawGet("type")
@@ -244,7 +241,6 @@ class Datapoint(LpdbBaseResponseData):
 
 
 class ExternalMediaLink(LpdbBaseResponseData):
-
     @property
     def title(self) -> str:
         return self._rawGet("title")
@@ -279,7 +275,6 @@ class ExternalMediaLink(LpdbBaseResponseData):
 
 
 class Match(LpdbBaseResponseData):
-
     @property
     def match2id(self) -> str:
         return self._rawGet("match2id")
@@ -525,7 +520,6 @@ class MatchGame(LpdbBaseData):
 
 
 class MatchOpponent(LpdbBaseData):
-
     @property
     def id(self) -> int:
         return self._rawGet("id")
@@ -574,7 +568,6 @@ class MatchOpponent(LpdbBaseData):
 
 
 class Placement(LpdbBaseResponseData):
-
     @property
     def tournament(self) -> str:
         return self._rawGet("tournament")
@@ -685,7 +678,6 @@ class Placement(LpdbBaseResponseData):
 
 
 class Player(LpdbBaseResponseData):
-
     @property
     def id(self) -> str:
         return self._rawGet("id")
@@ -756,7 +748,6 @@ class Player(LpdbBaseResponseData):
 
 
 class Series(LpdbBaseResponseData):
-
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -847,7 +838,6 @@ class Series(LpdbBaseResponseData):
 
 
 class SquadPlayer(LpdbBaseResponseData):
-
     @property
     def id(self) -> str:
         return self._rawGet("id")
@@ -918,7 +908,6 @@ class SquadPlayer(LpdbBaseResponseData):
 
 
 class StandingsEntry(LpdbBaseResponseData):
-
     @property
     def parent(self) -> str:
         return self._rawGet("parent")
@@ -973,7 +962,6 @@ class StandingsEntry(LpdbBaseResponseData):
 
 
 class StandingsTable(LpdbBaseResponseData):
-
     @property
     def parent(self) -> str:
         return self._rawGet("parent")
@@ -1008,7 +996,6 @@ class StandingsTable(LpdbBaseResponseData):
 
 
 class Team(LpdbBaseResponseData):
-
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -1075,7 +1062,6 @@ class Team(LpdbBaseResponseData):
 
 
 class Tournament(LpdbBaseResponseData):
-
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -1225,7 +1211,6 @@ class Tournament(LpdbBaseResponseData):
 
 
 class Transfer(LpdbBaseResponseData):
-
     @property
     def player(self) -> str:
         return self._rawGet("player")
@@ -1272,7 +1257,6 @@ class Transfer(LpdbBaseResponseData):
 
 
 class TeamTemplate(LpdbBaseData):
-
     @property
     def template(self) -> str:
         return self._rawGet("template")
