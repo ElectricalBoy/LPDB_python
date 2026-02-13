@@ -2,9 +2,9 @@
 Data type wrappers for data from LPDB queries.
 """
 
+import datetime
 import json
 
-from datetime import date, datetime, timedelta, timezone, UTC
 from enum import StrEnum
 from functools import lru_cache
 from typing import Any, Optional, Union
@@ -34,17 +34,19 @@ __all__ = [
 
 
 @lru_cache
-def _parseIsoDate(date_str: str) -> Optional[date]:
+def _parseIsoDate(date_str: str) -> Optional[datetime.date]:
     try:
-        return date.fromisoformat(date_str)
+        return datetime.date.fromisoformat(date_str)
     except ValueError:
         return None
 
 
 @lru_cache
-def _parseIsoDateTime(datetime_str: str) -> Optional[datetime]:
+def _parseIsoDateTime(datetime_str: str) -> Optional[datetime.datetime]:
     try:
-        return datetime.fromisoformat(datetime_str).replace(tzinfo=UTC)
+        return datetime.datetime.fromisoformat(datetime_str).replace(
+            tzinfo=datetime.UTC
+        )
     except ValueError:
         return None
 
@@ -156,7 +158,7 @@ class Broadcasters(LpdbBaseResponseData):
         return self._rawGet("weight")
 
     @property
-    def date(self) -> Optional[date]:
+    def date(self) -> Optional[datetime.date]:
         return _parseIsoDate(self._rawGet("date"))
 
     @property
@@ -206,11 +208,11 @@ class Company(LpdbBaseResponseData):
         return self._rawGet("industry")
 
     @property
-    def foundeddate(self) -> Optional[datetime]:
+    def foundeddate(self) -> Optional[datetime.datetime]:
         return _parseIsoDateTime(self._rawGet("foundeddate"))
 
     @property
-    def defunctdate(self) -> Optional[datetime]:
+    def defunctdate(self) -> Optional[datetime.datetime]:
         return _parseIsoDateTime(self._rawGet("defunctdate"))
 
     @property
@@ -252,7 +254,7 @@ class Datapoint(LpdbBaseResponseData):
         return self._rawGet("imagedarkurl")
 
     @property
-    def date(self) -> Optional[datetime]:
+    def date(self) -> Optional[datetime.datetime]:
         return _parseIsoDateTime(self._rawGet("date"))
 
 
@@ -274,7 +276,7 @@ class ExternalMediaLink(LpdbBaseResponseData):
         return self._rawGet("link")
 
     @property
-    def date(self) -> Optional[date]:
+    def date(self) -> Optional[datetime.date]:
         return _parseIsoDate(self._rawGet("date"))
 
     @property
@@ -356,7 +358,7 @@ class Match(LpdbBaseResponseData):
         return self._rawGet("bestof")
 
     @property
-    def date(self) -> Optional[datetime]:
+    def date(self) -> Optional[datetime.datetime]:
         parsed = _parseIsoDateTime(self._rawGet("date"))
         if not self.dateexact:
             return parsed
@@ -369,7 +371,7 @@ class Match(LpdbBaseResponseData):
         return bool(self._rawGet("dateexact"))
 
     @property
-    def timezone(self) -> Optional[timezone]:
+    def timezone(self) -> Optional[datetime.timezone]:
         """
         Timezone information stored in this match.
 
@@ -383,10 +385,10 @@ class Match(LpdbBaseResponseData):
         if offset is None:
             return None
         sliced_offset = offset.split(":")
-        offset_delta = timedelta(
+        offset_delta = datetime.timedelta(
             hours=int(sliced_offset[0]), minutes=int(sliced_offset[1])
         )
-        return timezone(offset_delta, name=self.extradata.get("timezoneid"))
+        return datetime.timezone(offset_delta, name=self.extradata.get("timezoneid"))
 
     @property
     def stream(self) -> dict[str, Any]:
@@ -510,7 +512,7 @@ class MatchGame(LpdbBaseData):
         return self._rawGet("resulttype")
 
     @property
-    def date(self) -> datetime:
+    def date(self) -> datetime.datetime:
         parsed = _parseIsoDateTime(self._rawGet("date"))
         if not self.dateexact:
             return parsed
@@ -627,11 +629,11 @@ class Placement(LpdbBaseResponseData):
         return self._rawGet("imagedarkurl")
 
     @property
-    def startdate(self) -> Optional[datetime]:
+    def startdate(self) -> Optional[datetime.datetime]:
         return _parseIsoDateTime(self._rawGet("startdate"))
 
     @property
-    def date(self) -> Optional[datetime]:
+    def date(self) -> Optional[datetime.datetime]:
         return _parseIsoDateTime(self._rawGet("date"))
 
     @property
@@ -757,11 +759,11 @@ class Player(LpdbBaseResponseData):
         return self._rawGet("region")
 
     @property
-    def birthdate(self) -> Optional[date]:
+    def birthdate(self) -> Optional[datetime.date]:
         return _parseIsoDate(self._rawGet("birthdate"))
 
     @property
-    def deathdate(self) -> Optional[date]:
+    def deathdate(self) -> Optional[datetime.date]:
         return _parseIsoDate(self._rawGet("deathdate"))
 
     @property
@@ -867,11 +869,11 @@ class Series(LpdbBaseResponseData):
         return self._rawGet("publishertier")
 
     @property
-    def launcheddate(self) -> date:
+    def launcheddate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("launcheddate"))
 
     @property
-    def defunctdate(self) -> date:
+    def defunctdate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("defunctdate"))
 
     @property
@@ -933,7 +935,7 @@ class SquadPlayer(LpdbBaseResponseData):
         return self._rawGet("status")
 
     @property
-    def joindate(self) -> date:
+    def joindate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("joindate"))
 
     @property
@@ -941,7 +943,7 @@ class SquadPlayer(LpdbBaseResponseData):
         return self._rawGet("joindateref")
 
     @property
-    def leavedate(self) -> date:
+    def leavedate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("leavedate"))
 
     @property
@@ -949,7 +951,7 @@ class SquadPlayer(LpdbBaseResponseData):
         return self._rawGet("leavedateref")
 
     @property
-    def inactivedate(self) -> date:
+    def inactivedate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("inactivedate"))
 
     @property
@@ -1099,11 +1101,11 @@ class Team(LpdbBaseResponseData):
         return self._rawGet("status")
 
     @property
-    def createdate(self) -> Optional[date]:
+    def createdate(self) -> Optional[datetime.date]:
         return _parseIsoDate(self._rawGet("createdate"))
 
     @property
-    def disbanddate(self) -> Optional[date]:
+    def disbanddate(self) -> Optional[datetime.date]:
         return _parseIsoDate(self._rawGet("disbanddate"))
 
     @property
@@ -1221,15 +1223,15 @@ class Tournament(LpdbBaseResponseData):
         return self._rawGet("organizers")
 
     @property
-    def startdate(self) -> date:
+    def startdate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("startdate"))
 
     @property
-    def enddate(self) -> date:
+    def enddate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("enddate"))
 
     @property
-    def sortdate(self) -> date:
+    def sortdate(self) -> datetime.date:
         return _parseIsoDate(self._rawGet("sortdate"))
 
     @property
@@ -1318,7 +1320,7 @@ class Transfer(LpdbBaseResponseData):
         return self._rawGet("reference")
 
     @property
-    def date(self) -> Optional[datetime]:
+    def date(self) -> Optional[datetime.datetime]:
         return _parseIsoDateTime(self._rawGet("date"))
 
     @property
