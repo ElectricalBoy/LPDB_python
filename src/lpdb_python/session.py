@@ -15,10 +15,22 @@ from typing import (
 )
 import re
 import warnings
+import importlib.metadata as metadata
 
 import requests
 
 __all__ = ["LpdbDataType", "LpdbError", "LpdbWarning", "LpdbSession"]
+
+_PACKAGE_NAME: Final[str] = "lpdb_python"
+
+
+@cache
+def _get_version() -> str:
+    try:
+        return metadata.version(_PACKAGE_NAME)
+    except metadata.PackageNotFoundError:
+        return "dev"
+
 
 type LpdbDataType = Literal[
     "broadcasters",
@@ -122,6 +134,7 @@ class AbstractLpdbSession(ABC):
             "authorization": f"Apikey {self.__api_key}",
             "accept": "application/json",
             "accept-encoding": "gzip",
+            "user-agent": f"{_PACKAGE_NAME}/{_get_version()}",
         }
 
     @staticmethod
