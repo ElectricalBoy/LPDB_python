@@ -80,6 +80,10 @@ matches = [
 ]
 ```
 
+## Documentation
+
+Documentation for this package can be found in [GitHub Pages](https://electricalboy.github.io/LPDB_python/).
+
 ## License
 
 This library is licensed under the [MIT License](./LICENSE), unless otherwise stated in the header of a file.  
