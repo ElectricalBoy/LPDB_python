@@ -51,11 +51,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version-file: "pyproject.toml"
       - name: Run linter
         uses: astral-sh/ruff-action@v3
       - name: Check styling
-        uses: psf/black@stable
+        run: ruff format --check --diff
