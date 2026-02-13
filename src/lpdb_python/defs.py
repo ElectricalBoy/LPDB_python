@@ -1,3 +1,7 @@
+"""
+Data type wrappers for data from LPDB queries.
+"""
+
 import json
 
 from datetime import date, datetime, timedelta, timezone, UTC
@@ -119,6 +123,10 @@ class LpdbBaseResponseData(LpdbBaseData):
 
 
 class Broadcasters(LpdbBaseResponseData):
+    """
+    Broadcaster data from LPDB.
+    """
+
     @property
     def id(self) -> str:
         return self._rawGet("id")
@@ -157,6 +165,10 @@ class Broadcasters(LpdbBaseResponseData):
 
 
 class Company(LpdbBaseResponseData):
+    """
+    Company data from LPDB.
+    """
+
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -211,6 +223,10 @@ class Company(LpdbBaseResponseData):
 
 
 class Datapoint(LpdbBaseResponseData):
+    """
+    Generic datapoint from LPDB.
+    """
+
     @property
     def type(self) -> str:
         return self._rawGet("type")
@@ -241,6 +257,10 @@ class Datapoint(LpdbBaseResponseData):
 
 
 class ExternalMediaLink(LpdbBaseResponseData):
+    """
+    External media link from LPDB.
+    """
+
     @property
     def title(self) -> str:
         return self._rawGet("title")
@@ -275,6 +295,10 @@ class ExternalMediaLink(LpdbBaseResponseData):
 
 
 class Match(LpdbBaseResponseData):
+    """
+    Match data from LPDB.
+    """
+
     @property
     def match2id(self) -> str:
         return self._rawGet("match2id")
@@ -348,6 +372,8 @@ class Match(LpdbBaseResponseData):
     def timezone(self) -> Optional[timezone]:
         """
         Timezone information stored in this match.
+
+        The `timezone` property from this property does not support IANA time zones.
         """
         if not self.dateexact:
             return None
@@ -437,6 +463,10 @@ class Match(LpdbBaseResponseData):
 
 
 class MatchGame(LpdbBaseData):
+    """
+    Game data stored in a match.
+    """
+
     _parent: "Match"
 
     def __init__(self, parent: "Match", raw: dict[str, Any]):
@@ -520,6 +550,10 @@ class MatchGame(LpdbBaseData):
 
 
 class MatchOpponent(LpdbBaseData):
+    """
+    Opponent data stored in a match.
+    """
+
     @property
     def id(self) -> int:
         return self._rawGet("id")
@@ -568,6 +602,10 @@ class MatchOpponent(LpdbBaseData):
 
 
 class Placement(LpdbBaseResponseData):
+    """
+    Placement data from LPDB.
+    """
+
     @property
     def tournament(self) -> str:
         return self._rawGet("tournament")
@@ -678,6 +716,10 @@ class Placement(LpdbBaseResponseData):
 
 
 class Player(LpdbBaseResponseData):
+    """
+    Player data from LPDB.
+    """
+
     @property
     def id(self) -> str:
         return self._rawGet("id")
@@ -748,6 +790,10 @@ class Player(LpdbBaseResponseData):
 
 
 class Series(LpdbBaseResponseData):
+    """
+    Tournament series data from LPDB.
+    """
+
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -838,6 +884,10 @@ class Series(LpdbBaseResponseData):
 
 
 class SquadPlayer(LpdbBaseResponseData):
+    """
+    Squad player data from LPDB.
+    """
+
     @property
     def id(self) -> str:
         return self._rawGet("id")
@@ -908,6 +958,10 @@ class SquadPlayer(LpdbBaseResponseData):
 
 
 class StandingsEntry(LpdbBaseResponseData):
+    """
+    Standings entry from LPDB.
+    """
+
     @property
     def parent(self) -> str:
         return self._rawGet("parent")
@@ -962,6 +1016,10 @@ class StandingsEntry(LpdbBaseResponseData):
 
 
 class StandingsTable(LpdbBaseResponseData):
+    """
+    Standings table from LPDB.
+    """
+
     @property
     def parent(self) -> str:
         return self._rawGet("parent")
@@ -996,6 +1054,10 @@ class StandingsTable(LpdbBaseResponseData):
 
 
 class Team(LpdbBaseResponseData):
+    """
+    Team data from LPDB.
+    """
+
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -1062,6 +1124,10 @@ class Team(LpdbBaseResponseData):
 
 
 class Tournament(LpdbBaseResponseData):
+    """
+    Tournament data from LPDB.
+    """
+
     @property
     def name(self) -> str:
         return self._rawGet("name")
@@ -1211,6 +1277,10 @@ class Tournament(LpdbBaseResponseData):
 
 
 class Transfer(LpdbBaseResponseData):
+    """
+    Transfer data from LPDB.
+    """
+
     @property
     def player(self) -> str:
         return self._rawGet("player")
@@ -1257,6 +1327,10 @@ class Transfer(LpdbBaseResponseData):
 
 
 class TeamTemplate(LpdbBaseData):
+    """
+    Team template from LPDB.
+    """
+
     @property
     def template(self) -> str:
         return self._rawGet("template")
