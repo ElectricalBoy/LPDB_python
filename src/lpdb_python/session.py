@@ -145,7 +145,7 @@ class AbstractLpdbSession(ABC):
     @abstractmethod
     def get_wikis() -> set[str]:
         """
-        Fetches the list of all available wikis.
+        Fetches the set of all available wikis.
 
         :return: set of all available wiki names
         """
@@ -172,8 +172,9 @@ class AbstractLpdbSession(ABC):
         :param limit: the amount of results wanted
         :param offset: the offset, the first `offset` results from the query will be dropped
         :param conditions: the conditions for the query
-        :param order: the order of results to be sorted in; each ordering rule is specified as a `(datapoint, direction)` tuple
-        :param groupby: the way that the query results are grouped; each grouping rule is specified as a `(datapoint, direction)` tuple
+        :paran query: the data field(s) to fetch from query
+        :param order: the order of results to be sorted in; each ordering rule can specified as a `(datapoint, direction)` tuple
+        :param groupby: the way that the query results are grouped; each grouping rule can specified as a `(datapoint, direction)` tuple
 
         :return: result of the query
 
