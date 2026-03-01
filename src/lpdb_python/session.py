@@ -201,10 +201,7 @@ class AbstractLpdbSession(ABC):
         :raises ValueError: if an invalid `lpdb_datatype` is supplied
         :raises LpdbError: if something went wrong with the request
         """
-        response = self.make_request(
-            lpdb_datatype, wiki, conditions=conditions, query="count::objectname"
-        )
-        return response[0]["count_objectname"]
+        pass
 
     @abstractmethod
     def get_team_template(
@@ -366,6 +363,18 @@ class LpdbSession(AbstractLpdbSession):
             ),
         )
         return LpdbSession.__handle_response(lpdb_response)
+
+    @override
+    def make_count_request(
+        self,
+        lpdb_datatype: LpdbDataType,
+        wiki: str,
+        conditions: Optional[str] = None,
+    ) -> int:
+        response = self.make_request(
+            lpdb_datatype, wiki, conditions=conditions, query="count::objectname"
+        )
+        return response[0]["count_objectname"]
 
     @override
     def get_team_template(
