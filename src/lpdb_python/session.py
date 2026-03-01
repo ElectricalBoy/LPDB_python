@@ -79,7 +79,7 @@ class LpdbError(Exception):
 
 class LpdbRateLimitError(LpdbError):
     """
-    Raised when the LPDB request created a fatal issue.
+    Raised when the LPDB request failed due to a rate limit.
     """
 
     def __init__(self, wiki: str, table: str, *args):
