@@ -48,6 +48,9 @@ type LpdbDataType = Literal[
     "tournament",
     "transfer",
 ]
+"""
+Python type representing the available data types in LPDB
+"""
 
 
 class LpdbResponse(TypedDict):
