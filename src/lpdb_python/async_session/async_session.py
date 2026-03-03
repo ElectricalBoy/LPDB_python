@@ -1,3 +1,4 @@
+from contextlib import AbstractAsyncContextManager
 from datetime import date
 from types import TracebackType
 from typing import Any, Literal, Optional, override
@@ -9,7 +10,7 @@ from ..session import AbstractLpdbSession, LpdbDataType
 __all__ = ["AsyncLpdbSession"]
 
 
-class AsyncLpdbSession(AbstractLpdbSession):
+class AsyncLpdbSession(AbstractLpdbSession, AbstractAsyncContextManager):
     """
     Asynchronous implementation of a LPDB session
     """
@@ -32,9 +33,6 @@ class AsyncLpdbSession(AbstractLpdbSession):
         exc_tb: Optional[TracebackType],
     ) -> None:
         pass
-
-    async def __aenter__(self) -> "AsyncLpdbSession":
-        return self
 
     async def __aexit__(
         self,

@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+from contextlib import AbstractContextManager
 from datetime import date
 from functools import cache
 from http import HTTPStatus
@@ -318,7 +319,7 @@ class AbstractLpdbSession(ABC):
         return result
 
 
-class LpdbSession(AbstractLpdbSession):
+class LpdbSession(AbstractLpdbSession, AbstractContextManager):
     """
     Implementation of a LPDB session
     """
@@ -329,9 +330,6 @@ class LpdbSession(AbstractLpdbSession):
         super().__init__(api_key, base_url=base_url)
         self.__session = requests.Session()
         self.__session.headers.update(self._get_header())
-
-    def __enter__(self) -> "LpdbSession":
-        return self
 
     def __exit__(
         self,
