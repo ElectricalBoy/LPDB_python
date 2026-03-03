@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 from datetime import date
 from functools import cache
 from http import HTTPStatus
+from types import TracebackType
 from typing import (
     Any,
     Final,
@@ -322,6 +323,24 @@ class LpdbSession(AbstractLpdbSession):
     Implementation of a LPDB session
     """
 
+    __session: requests.Session
+
+    def __init__(self, api_key: str, base_url=AbstractLpdbSession.BASE_URL):
+        super().__init__(api_key, base_url=base_url)
+        self.__session = requests.Session()
+        self.__session.headers.update(self._get_header())
+
+    def __enter__(self) -> "LpdbSession":
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
+        self.__session.close()
+
     @staticmethod
     def get_wikis() -> set[str]:
         response = requests.get(
@@ -351,9 +370,8 @@ class LpdbSession(AbstractLpdbSession):
     ) -> list[dict[str, Any]]:
         if not AbstractLpdbSession._validate_datatype_name(lpdb_datatype):
             raise ValueError(f'Invalid LPDB data type: "{lpdb_datatype}"')
-        lpdb_response = requests.get(
+        lpdb_response = self.__session.get(
             self._base_url + lpdb_datatype,
-            headers=self._get_header(),
             params=AbstractLpdbSession._parse_params(
                 wiki=wiki,
                 limit=limit,
@@ -389,9 +407,8 @@ class LpdbSession(AbstractLpdbSession):
         }
         if date is not None:
             params["date"] = date.isoformat()
-        lpdb_response = requests.get(
+        lpdb_response = self.__session.get(
             self._base_url + "teamtemplate",
-            headers=self._get_header(),
             params=params,
         )
         return LpdbSession.__handle_response(lpdb_response)[0]
@@ -400,9 +417,8 @@ class LpdbSession(AbstractLpdbSession):
     def get_team_template_list(
         self, wiki: str, pagination: int = 1
     ) -> list[dict[str, Any]]:
-        lpdb_response = requests.get(
+        lpdb_response = self.__session.get(
             self._base_url + "teamtemplatelist",
-            headers=self._get_header(),
             params={"wiki": wiki, "pagination": pagination},
         )
         return LpdbSession.__handle_response(lpdb_response)
