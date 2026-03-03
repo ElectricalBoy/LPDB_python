@@ -514,6 +514,8 @@ class MatchGame(LpdbBaseData):
         parsed = _parseIsoDateTime(self._rawGet("date"))
         if not self.dateexact:
             return parsed
+        elif self._parent.timezone is None:
+            return parsed
         return parsed.astimezone(self._parent.timezone)
 
     @property
