@@ -17,7 +17,7 @@ class AsyncLpdbSession(AbstractLpdbSession, AbstractAsyncContextManager):
 
     __session: aiohttp.ClientSession
 
-    def __init__(self, api_key, base_url=AbstractLpdbSession.BASE_URL):
+    def __init__(self, api_key: str, base_url=AbstractLpdbSession.BASE_URL):
         super().__init__(api_key, base_url=base_url)
         self.__session = aiohttp.ClientSession(
             self._base_url, headers=self._get_header()
