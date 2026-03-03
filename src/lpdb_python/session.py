@@ -327,6 +327,12 @@ class LpdbSession(AbstractLpdbSession, AbstractContextManager):
     __session: requests.Session
 
     def __init__(self, api_key: str, base_url=AbstractLpdbSession.BASE_URL):
+        """
+        Creates a new LpdbSession with the specified API key.
+
+        :param api_key: API key for LPDB
+        :param base_url: Base URL of LPDB API endpoint
+        """
         super().__init__(api_key, base_url=base_url)
         self.__session = requests.Session()
         self.__session.headers.update(self._get_header())
