@@ -9,8 +9,6 @@ from enum import StrEnum
 from functools import lru_cache
 from typing import Any, Optional, Union
 
-type Number = Union[int, float]
-
 __all__ = [
     "OpponentType",
     "Broadcasters",
@@ -488,7 +486,7 @@ class MatchGame(LpdbBaseData):
         return self._rawGet("match2gameid")
 
     @property
-    def scores(self) -> list[Number]:
+    def scores(self) -> list[Union[int, float]]:
         return self._rawGet("scores")
 
     @property
@@ -577,7 +575,7 @@ class MatchOpponent(LpdbBaseData):
         return self._rawGet("icon")
 
     @property
-    def score(self) -> Number:
+    def score(self) -> Union[int, float]:
         return self._rawGet("score")
 
     @property
@@ -637,11 +635,11 @@ class Placement(LpdbBaseResponseData):
         return _parseIsoDateTime(self._rawGet("date"))
 
     @property
-    def prizemoney(self) -> Number:
+    def prizemoney(self) -> Union[int, float]:
         return self._rawGet("placement")
 
     @property
-    def weight(self) -> Number:
+    def weight(self) -> Union[int, float]:
         return self._rawGet("weight")
 
     @property
@@ -783,11 +781,11 @@ class Player(LpdbBaseResponseData):
         return self._rawGet("status")
 
     @property
-    def earnings(self) -> Number:
+    def earnings(self) -> Union[int, float]:
         return self._rawGet("earnings")
 
     @property
-    def earningsbyyear(self) -> dict[str, Number]:
+    def earningsbyyear(self) -> dict[str, Union[int, float]]:
         return self._rawGet("earningsbyyear")
 
 
@@ -853,7 +851,7 @@ class Series(LpdbBaseResponseData):
         return self._rawGet("locations")
 
     @property
-    def prizepool(self) -> Number:
+    def prizepool(self) -> Union[int, float]:
         return self._rawGet("prizepool")
 
     @property
@@ -1109,11 +1107,11 @@ class Team(LpdbBaseResponseData):
         return _parseIsoDate(self._rawGet("disbanddate"))
 
     @property
-    def earnings(self) -> Number:
+    def earnings(self) -> Union[int, float]:
         return self._rawGet("earnings")
 
     @property
-    def earningsbyyear(self) -> dict[str, Number]:
+    def earningsbyyear(self) -> dict[str, Union[int, float]]:
         return self._rawGet("earningsbyyear")
 
     @property
@@ -1239,7 +1237,7 @@ class Tournament(LpdbBaseResponseData):
         return self._rawGet("locations")
 
     @property
-    def prizepool(self) -> Number:
+    def prizepool(self) -> Union[int, float]:
         return self._rawGet("prizepool")
 
     @property
