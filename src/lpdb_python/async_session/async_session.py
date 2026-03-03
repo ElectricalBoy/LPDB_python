@@ -42,7 +42,7 @@ class AsyncLpdbSession(AbstractLpdbSession):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        await self.__session.close()
+        await self.close()
 
     @staticmethod
     async def get_wikis() -> set[str]:
@@ -129,3 +129,9 @@ class AsyncLpdbSession(AbstractLpdbSession):
             params={"wiki": wiki, "pagination": pagination},
         ) as response:
             return await AsyncLpdbSession.__handle_response(response)
+
+    async def close(self):
+        """
+        Closes this AsyncLpdbSession.
+        """
+        await self.__session.close()

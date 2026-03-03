@@ -339,7 +339,7 @@ class LpdbSession(AbstractLpdbSession):
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
-        self.__session.close()
+        self.close()
 
     @staticmethod
     def get_wikis() -> set[str]:
@@ -422,3 +422,9 @@ class LpdbSession(AbstractLpdbSession):
             params={"wiki": wiki, "pagination": pagination},
         )
         return LpdbSession.__handle_response(lpdb_response)
+
+    def close(self):
+        """
+        Closes this LpdbSession.
+        """
+        self.__session.close()
