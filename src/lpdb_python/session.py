@@ -188,6 +188,7 @@ class AbstractLpdbSession(ABC):
         """
         pass
 
+    @abstractmethod
     def make_count_request(
         self,
         lpdb_datatype: LpdbDataType,
